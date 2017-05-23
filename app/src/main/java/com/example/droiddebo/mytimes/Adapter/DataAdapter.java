@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.droiddebo.mytimes.Model.Article;
 import com.example.droiddebo.mytimes.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -35,11 +35,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         Article article = articles.get(position);
 
         holder.tv_card_main_title.setText(article.getTitle());
-        Picasso.with(mContext)
+        Glide.with(mContext)
                 .load(article.getUrlToImage())
-                .resize(100,100)
+                .thumbnail(Glide.with(mContext).load(R.raw.ic_loading))
                 .centerCrop()
                 .error(R.drawable.ic_image)
+                .crossFade()
                 .into(holder.img_card_main);
     }
 
