@@ -42,7 +42,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+
         swipeRefreshLayout.setOnRefreshListener(this);
+
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
 //        recyclerView.setHasFixedSize(true);
         adapter = new DataAdapter(this, articles);
