@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes;
+package com.example.droiddebo.mytimes.Adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.droiddebo.mytimes.Model.Article;
+import com.example.droiddebo.mytimes.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

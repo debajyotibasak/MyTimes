@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes;
+package com.example.droiddebo.mytimes.Model;
 
 public class Article {
     private String author;

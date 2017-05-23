@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes;
+package com.example.droiddebo.mytimes.View;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,14 +8,19 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.droiddebo.mytimes.Adapter.DataAdapter;
+import com.example.droiddebo.mytimes.Model.Article;
+import com.example.droiddebo.mytimes.Network.ApiClient;
+import com.example.droiddebo.mytimes.Network.ApiInterface;
+import com.example.droiddebo.mytimes.Network.JSONResponse;
+import com.example.droiddebo.mytimes.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ArrayList<Article> articles;
     private DataAdapter adapter;
+//    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,36 +45,30 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
         recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManager);
-        
         loadJSON();
     }
 
-    private void loadJSON() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://newsapi.org/v1/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
 
-        RequestInterface request = retrofit.create(RequestInterface.class);
+    private void loadJSON() {
 
         if (API_KEY.isEmpty()) {
             Toast.makeText(getApplicationContext(), "Please obtain your API KEY from newsapi.org first!", Toast.LENGTH_LONG).show();
             return;
         }
 
+        ApiInterface request = ApiClient.getClient().create(ApiInterface.class);
+
         Call<JSONResponse> call = request.getJSON(SOURCE, SORT_BY, API_KEY);
         call.enqueue(new Callback<JSONResponse>() {
             @Override
             public void onResponse(@NonNull Call<JSONResponse> call, @NonNull Response<JSONResponse> response) {
-                JSONResponse jsonResponse = response.body();
 
+                JSONResponse jsonResponse = response.body();
                 articles = new ArrayList<>(Arrays.asList(jsonResponse.getArticle()));
                 adapter = new DataAdapter(getApplicationContext(), articles);
                 recyclerView.setAdapter(adapter);
-
             }
 
             @Override
