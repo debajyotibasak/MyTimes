@@ -12,15 +12,15 @@ import com.example.droiddebo.mytimes.Model.Article;
 import com.example.droiddebo.mytimes.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
-    private ArrayList<Article> articles;
-    private Context context;
+    private List<Article> articles;
+    private Context mContext;
 
-    public DataAdapter(Context context, ArrayList<Article> articles) {
-        this.context = context;
+    public DataAdapter(Context mContext, List<Article> articles) {
+        this.mContext = mContext;
         this.articles = articles;
     }
 
@@ -32,9 +32,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
-        holder.tv_card_main_title.setText(articles.get(position).getTitle());
-        Picasso.with(context)
-                .load(articles.get(position).getUrlToImage())
+        Article article = articles.get(position);
+
+        holder.tv_card_main_title.setText(article.getTitle());
+        Picasso.with(mContext)
+                .load(article.getUrlToImage())
                 .resize(100,100)
                 .centerCrop()
                 .error(R.drawable.ic_image)
