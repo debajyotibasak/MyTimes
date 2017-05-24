@@ -1,10 +1,11 @@
 package com.example.droiddebo.mytimes.View;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -44,8 +45,8 @@ public class ArticleActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+                startActivity(browserIntent);
             }
         });
 
@@ -78,16 +79,19 @@ public class ArticleActivity extends AppCompatActivity {
         URL = getIntent().getStringExtra("key_URL");
 
         TextView content_Headline = (TextView) findViewById(R.id.content_Headline);
-        content_Headline.setText(headLine);
+        content_Headline.setText(headLine.replace("- Times of India", ""));
 
         TextView content_Date = (TextView) findViewById(R.id.content_Date);
-        content_Date.setText("DATE: " + date);
+        content_Date.setText("DATE: " + date.substring(0,10));
 
         TextView content_Description = (TextView) findViewById(R.id.content_Description);
         content_Description.setText(description);
 
         TextView content_Author = (TextView) findViewById(R.id.content_Author);
         content_Author.setText("AUTHOR: " + author);
+
+        TextView content_Source = (TextView) findViewById(R.id.content_source);
+        content_Source.setText("SOURCE: Times of India");
 
         ImageView collapsingImage = (ImageView) findViewById(R.id.collapsingImage);
         Glide.with(this)
@@ -96,6 +100,8 @@ public class ArticleActivity extends AppCompatActivity {
                 .error(R.drawable.ic_image)
                 .crossFade()
                 .into(collapsingImage);
+
+
 
 
     }
@@ -120,6 +126,8 @@ public class ArticleActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.action_url) {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+            startActivity(browserIntent);
             return true;
         }
 

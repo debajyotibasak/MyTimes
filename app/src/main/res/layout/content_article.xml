@@ -18,8 +18,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:textSize="34sp"
+            android:textSize="24sp"
             android:textStyle="bold"
+            android:fontFamily="sans-serif-condensed"
             tools:text="Headline"/>
 
         <TextView
@@ -27,8 +28,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:textSize="20sp"
+            android:textSize="12sp"
             android:textStyle="normal"
+            android:fontFamily="serif-monospace"
             tools:text="Date"/>
 
         <TextView
@@ -36,9 +38,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:textSize="24sp"
-            android:textStyle="italic"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-condensed"
             tools:text="Story"/>
+
+        <TextView
+            android:id="@+id/content_source"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-condensed"
+            tools:text="Source"/>
 
         <TextView
             android:id="@+id/content_Author"
@@ -46,8 +62,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/text_margin"
-            android:textSize="20sp"
-            android:textStyle="normal"
+            android:textSize="12sp"
+            android:textStyle="italic"
+            android:fontFamily="sans-serif-condensed"
             tools:text="Author"/>
 
 

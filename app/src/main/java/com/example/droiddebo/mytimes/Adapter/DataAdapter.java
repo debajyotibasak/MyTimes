@@ -39,7 +39,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
         final Article article = articles.get(position);
 
-        holder.tv_card_main_title.setText(article.getTitle());
+        holder.tv_card_main_title.setText(article.getTitle().replace("- Times of India", ""));
+
         Glide.with(mContext)
                 .load(article.getUrlToImage())
                 .centerCrop()
@@ -78,7 +79,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_card_main_title;
+        private TextView tv_card_main_title,tv_card_source;
         private ImageView img_card_main;
         private CardView cardView;
 
