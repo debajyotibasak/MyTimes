@@ -19,6 +19,8 @@ import java.util.List;
 
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
+    private static String TAG = "DATA";
+
     private List<Article> articles;
     private Context mContext;
 
@@ -35,12 +37,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
-        Article article = articles.get(position);
+        final Article article = articles.get(position);
 
         holder.tv_card_main_title.setText(article.getTitle());
         Glide.with(mContext)
                 .load(article.getUrlToImage())
-                .thumbnail(Glide.with(mContext).load(R.raw.ic_loading))
                 .centerCrop()
                 .error(R.drawable.ic_image)
                 .crossFade()
@@ -49,15 +50,27 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchArticleActivity();
+                String headLine = article.getTitle();
+                String author = article.getAuthor();
+                String description = article.getDescription();
+                String date = article.getPublishedAt();
+                String imgURL = article.getUrlToImage();
+                String URL = article.getUrl();
+
+                Intent intent = new Intent(mContext, ArticleActivity.class);
+
+                intent.putExtra("key_HeadLine", headLine);
+                intent.putExtra("key_author", author);
+                intent.putExtra("key_description", description);
+                intent.putExtra("key_date", date);
+                intent.putExtra("key_imgURL", imgURL);
+                intent.putExtra("key_URL", URL);
+
+                mContext.startActivity(intent);
             }
         });
     }
 
-    private void launchArticleActivity() {
-        Intent intent = new Intent(mContext, ArticleActivity.class);
-        mContext.startActivity(intent);
-    }
 
     @Override
     public int getItemCount() {

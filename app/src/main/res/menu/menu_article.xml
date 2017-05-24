@@ -7,4 +7,10 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_url"
+        android:orderInCategory="200"
+        android:title="url"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_link_white_24dp"/>
 </menu>
