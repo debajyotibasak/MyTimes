@@ -100,10 +100,6 @@ public class ArticleActivity extends AppCompatActivity {
                 .error(R.drawable.ic_placeholder)
                 .crossFade()
                 .into(collapsingImage);
-
-
-
-
     }
 
     @Override
@@ -111,7 +107,7 @@ public class ArticleActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         this.menu = menu;
         getMenuInflater().inflate(R.menu.menu_article, menu);
-        hideOption(R.id.action_url);
+
         return true;
     }
 
@@ -122,10 +118,7 @@ public class ArticleActivity extends AppCompatActivity {
 
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.action_url) {
+        if (id == R.id.action_url) {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
             startActivity(browserIntent);
             return true;

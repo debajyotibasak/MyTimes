@@ -6,7 +6,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.CompoundButton;
+import android.widget.Toast;
 
 import com.example.droiddebo.mytimes.Adapter.DataAdapter;
 import com.example.droiddebo.mytimes.Model.Article;
@@ -33,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private List<Article> articles = new ArrayList<>();
     private DataAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private SwitchCompat switchCompat;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     }
                 }
         );
-
     }
 
     private void loadJSON() {
@@ -96,5 +102,44 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     public void onRefresh() {
         loadJSON();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem itemSwitch = menu.findItem(R.id.action_switchMenu);
+        itemSwitch.setActionView(R.layout.switch_layout);
+
+        switchCompat = (SwitchCompat) menu.findItem(R.id.action_switchMenu).getActionView().findViewById(R.id.switchLayout);
+
+        switchCompat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(getApplication(), "ON", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getApplication(), "OFF", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_switchMenu) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

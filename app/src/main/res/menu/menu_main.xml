@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.droiddebo.mytimes.View.ArticleActivity">
     <item
-        android:id="@+id/action_url"
-        android:orderInCategory="100"
-        android:title="url"
-        app:showAsAction="ifRoom"
-        android:icon="@drawable/ic_link_white_24dp"/>
+        android:id="@+id/action_switchMenu"
+        android:orderInCategory="200"
+        android:title="switch"
+        app:showAsAction="always"
+        android:actionLayout="@layout/switch_layout"/>
 </menu>
