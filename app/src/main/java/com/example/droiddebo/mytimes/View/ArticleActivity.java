@@ -97,7 +97,7 @@ public class ArticleActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(imgURL)
                 .centerCrop()
-                .error(R.drawable.ic_image)
+                .error(R.drawable.ic_placeholder)
                 .crossFade()
                 .into(collapsingImage);
 
