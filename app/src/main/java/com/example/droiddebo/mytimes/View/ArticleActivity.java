@@ -82,7 +82,7 @@ public class ArticleActivity extends AppCompatActivity {
         content_Headline.setText(headLine.replace("- Times of India", ""));
 
         TextView content_Date = (TextView) findViewById(R.id.content_Date);
-        content_Date.setText("DATE: " + date.substring(0,10));
+        content_Date.setText("DATE: " + date);
 
         TextView content_Description = (TextView) findViewById(R.id.content_Description);
         content_Description.setText(description);

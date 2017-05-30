@@ -7,23 +7,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Menu;
 
 import com.example.droiddebo.mytimes.Adapter.DataAdapter;
 import com.example.droiddebo.mytimes.Model.Article;
 import com.example.droiddebo.mytimes.Model.ArticleResponse;
+import com.example.droiddebo.mytimes.MyTimesApplication;
 import com.example.droiddebo.mytimes.Network.ApiClient;
 import com.example.droiddebo.mytimes.Network.ApiInterface;
+import com.example.droiddebo.mytimes.Network.Interceptors.OfflineResponseCacheInterceptor;
+import com.example.droiddebo.mytimes.Network.Interceptors.ResponseCacheInterceptor;
 import com.example.droiddebo.mytimes.R;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import okhttp3.logging.HttpLoggingInterceptor.Level;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener{
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private final static String SOURCE = "the-times-of-india";
@@ -34,7 +42,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private List<Article> articles = new ArrayList<>();
     private DataAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,18 +80,41 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 //            return;
 //        }
 
-        ApiInterface request = ApiClient.getClient().create(ApiInterface.class);
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        // set your desired log level
+        logging.setLevel(Level.BODY);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+
+        // add your other interceptors …
+        httpClient.addNetworkInterceptor(new ResponseCacheInterceptor());
+        httpClient.addInterceptor(new OfflineResponseCacheInterceptor());
+        httpClient.cache(new Cache(new File(MyTimesApplication.getMyTimesApplicationInstance()
+                .getCacheDir(), "ResponsesCache"), 10 * 1024 * 1024));
+        httpClient.readTimeout(60, TimeUnit.SECONDS);
+        httpClient.connectTimeout(60, TimeUnit.SECONDS);
+
+        // add logging as last interceptor
+        httpClient.addInterceptor(logging);
+
+        // <-- this is the important line!
+
+
+        ApiInterface request = ApiClient.getClient(httpClient).create(ApiInterface.class);
 
         Call<ArticleResponse> call = request.getCall(SOURCE, SORT_BY, API_KEY);
         call.enqueue(new Callback<ArticleResponse>() {
             @Override
             public void onResponse(@NonNull Call<ArticleResponse> call, @NonNull Response<ArticleResponse> response) {
 
-                articles.clear();
-                articles.addAll(response.body().getArticles());
-                adapter.notifyDataSetChanged();
-                swipeRefreshLayout.setRefreshing(false);
+                if (response.isSuccessful()) {
+                    articles.clear();
+                    articles.addAll(response.body().getArticles());
+                    adapter.notifyDataSetChanged();
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
+
 
             @Override
             public void onFailure(@NonNull Call<ArticleResponse> call, @NonNull Throwable t) {
