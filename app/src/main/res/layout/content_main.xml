@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:mContext="com.example.droiddebo.mytimes.View.MainActivity"
+    tools:mContext="com.example.droiddebo.mytimes.view.MainActivity"
     tools:showIn="@layout/activity_main">
 
     <android.support.v4.widget.SwipeRefreshLayout

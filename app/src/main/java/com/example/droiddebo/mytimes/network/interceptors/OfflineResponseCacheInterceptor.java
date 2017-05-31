@@ -1,6 +1,8 @@
-package com.example.droiddebo.mytimes.Network.Interceptors;
+package com.example.droiddebo.mytimes.network.interceptors;
 
-import com.example.droiddebo.mytimes.Util.UtilityMethods;
+import android.support.annotation.NonNull;
+
+import com.example.droiddebo.mytimes.util.UtilityMethods;
 
 import java.io.IOException;
 
@@ -17,7 +19,7 @@ import okhttp3.Response;
 
 public class OfflineResponseCacheInterceptor implements Interceptor{
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         if (!UtilityMethods.isNetworkAvailable()) {
             request = request.newBuilder()

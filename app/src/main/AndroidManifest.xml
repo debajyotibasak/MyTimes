@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.droiddebo.mytimes">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:name=".MyTimesApplication"
@@ -13,7 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".View.MainActivity">
+        <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,13 +23,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".View.ArticleActivity"
+            android:name=".view.ArticleActivity"
             android:label="@string/title_activity_article"
-            android:parentActivityName=".View.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".view.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.droiddebo.mytimes.View.MainActivity" />
+                android:value="com.example.droiddebo.mytimes.view.MainActivity" />
         </activity>
     </application>
 

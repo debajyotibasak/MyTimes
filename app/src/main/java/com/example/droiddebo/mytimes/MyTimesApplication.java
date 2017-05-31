@@ -2,10 +2,9 @@ package com.example.droiddebo.mytimes;
 
 import android.app.Application;
 
-/**
- * Created by DROID DEBO on 30-05-2017.
- */
-
+/*
+** Used for getting the application instance
+**/
 public class MyTimesApplication extends Application {
     private static MyTimesApplication myTimesApplicationInstance;
 

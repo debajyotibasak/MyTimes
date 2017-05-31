@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.Adapter;
+package com.example.droiddebo.mytimes.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,26 +15,34 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.droiddebo.mytimes.Model.Article;
+import com.example.droiddebo.mytimes.model.Article;
 import com.example.droiddebo.mytimes.R;
-import com.example.droiddebo.mytimes.View.ArticleActivity;
+import com.example.droiddebo.mytimes.view.ArticleActivity;
 
 import java.util.List;
 
+/*
+** This Class is Used to fetch the data from the POJO Article and bind them to the views.
+**/
 public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
-    private static String TAG = "DATA";
+    /*
+    ** Used for showing LOG messages for Debugging.
+    **/
+    //private static String TAG = "DATA";
 
     private List<Article> articles;
     private Context mContext;
-    int lastPosition = -1;
-
+    private int lastPosition = -1;
 
     public DataAdapter(Context mContext, List<Article> articles) {
         this.mContext = mContext;
         this.articles = articles;
     }
 
+    /*
+    ** inflating the cardView.
+    **/
     @Override
     public DataAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_row, parent, false);
@@ -64,6 +72,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
                 String imgURL = article.getUrlToImage();
                 String URL = article.getUrl();
 
+                /*
+                ** Using Intents to send data from MainActivity to ArticleActivity
+                **/
                 Intent intent = new Intent(mContext, ArticleActivity.class);
 
                 intent.putExtra("key_HeadLine", headLine);
@@ -78,7 +89,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         });
 
         if(position >lastPosition) {
-
+            /*
+            ** Used for adding animations to the CardView using animation file up_from_bottom.xml.
+            **/
             Animation animation = AnimationUtils.loadAnimation(mContext,
                     R.anim.up_from_bottom);
             holder.itemView.startAnimation(animation);
@@ -86,14 +99,19 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         }
     }
 
-
+    /*
+    ** Last parameter for binding the articles in OnBindViewHolder.
+    **/
     @Override
     public int getItemCount() {
         return articles.size();
     }
 
+    /*
+    ** ViewHolder class which holds the different views in the recyclerView .
+    **/
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView tv_card_main_title,tv_card_source;
+        private TextView tv_card_main_title;
         private ImageView img_card_main;
         private CardView cardView;
 
@@ -102,7 +120,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
         public ViewHolder(View view) {
             super(view);
-
             tv_card_main_title = (TextView) view.findViewById(R.id.tv_card_main_title);
             tv_card_main_title.setTypeface(roboto_slab_regular);
             img_card_main = (ImageView) view.findViewById(R.id.img_card_main);

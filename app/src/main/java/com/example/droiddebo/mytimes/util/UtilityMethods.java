@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.Util;
+package com.example.droiddebo.mytimes.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -8,7 +8,6 @@ import com.example.droiddebo.mytimes.MyTimesApplication;
 public class UtilityMethods {
     /**
      * Method to detect network connection on the device
-     * @return
      */
     public static boolean isNetworkAvailable() {
 

@@ -1,6 +1,5 @@
-package com.example.droiddebo.mytimes.View;
+package com.example.droiddebo.mytimes.view;
 
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,30 +16,32 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.droiddebo.mytimes.R;
 
+/*
+** Article Activity is loaded when the user presses on one of the card views of the Recycler View
+ * which is present in the Main Activity.
+**/
+
 public class ArticleActivity extends AppCompatActivity {
 
     private Menu menu;
-    private Context mContext;
-
-    private String headLine;
-    private String author;
-    private String description;
-    private String date;
-    private String imgURL;
     private String URL;
-
-    private static final String TAG = ArticleActivity.class.getSimpleName();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
+
+        /*
+        ** Custom Toolbar ( App Bar )
+        **/
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false); // For not showing the title of the toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        /*
+        ** Action of the Floating Action Button ( FAB )
+        **/
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,6 +51,9 @@ public class ArticleActivity extends AppCompatActivity {
             }
         });
 
+        /*
+        ** Customising animations of the AppBar Layout
+        **/
         AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
 
@@ -71,27 +75,30 @@ public class ArticleActivity extends AppCompatActivity {
             }
         });
 
-        headLine = getIntent().getStringExtra("key_HeadLine");
-        author = getIntent().getStringExtra("key_author");
-        description = getIntent().getStringExtra("key_description");
-        date = getIntent().getStringExtra("key_date");
-        imgURL = getIntent().getStringExtra("key_imgURL");
+        /*
+        ** We get the response data from the Main Activity as Intents
+        **/
+        String headLine = getIntent().getStringExtra("key_HeadLine");
+        String author = getIntent().getStringExtra("key_author");
+        String description = getIntent().getStringExtra("key_description");
+        String date = getIntent().getStringExtra("key_date");
+        String imgURL = getIntent().getStringExtra("key_imgURL");
         URL = getIntent().getStringExtra("key_URL");
 
         TextView content_Headline = (TextView) findViewById(R.id.content_Headline);
         content_Headline.setText(headLine.replace("- Times of India", ""));
 
         TextView content_Date = (TextView) findViewById(R.id.content_Date);
-        content_Date.setText("DATE: " + date);
+        content_Date.setText(getString(R.string.article_activity_date) + date);
 
         TextView content_Description = (TextView) findViewById(R.id.content_Description);
         content_Description.setText(description);
 
         TextView content_Author = (TextView) findViewById(R.id.content_Author);
-        content_Author.setText("AUTHOR: " + author);
+        content_Author.setText(getString(R.string.article_activity_author) + author);
 
         TextView content_Source = (TextView) findViewById(R.id.content_source);
-        content_Source.setText("SOURCE: Times of India");
+        content_Source.setText(R.string.article_activity_source);
 
         ImageView collapsingImage = (ImageView) findViewById(R.id.collapsingImage);
         Glide.with(this)
@@ -112,18 +119,22 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
-        int id = item.getItemId();
+        switch (item.getItemId()) {
+            /*
+            * Load the URL to the news when pressing the URL button
+            * */
+            case R.id.action_url:
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+                startActivity(browserIntent);
 
-        if (id == R.id.action_url) {
-            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-            startActivity(browserIntent);
-            return true;
+            /*
+            * Override the Up/Home Button
+            * */
+            case android.R.id.home:
+                onBackPressed();
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
