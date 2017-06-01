@@ -119,12 +119,12 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
         private CardView cardView;
 
         AssetManager assetManager = mContext.getApplicationContext().getAssets();
-        Typeface roboto_slab_regular = Typeface.createFromAsset(assetManager, "fonts/RobotoSlab-Regular.ttf");
+        Typeface montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
         public ViewHolder(View view) {
             super(view);
             tv_card_main_title = (TextView) view.findViewById(R.id.tv_card_main_title);
-            tv_card_main_title.setTypeface(roboto_slab_regular);
+            tv_card_main_title.setTypeface(montserrat_regular);
             img_card_main = (ImageView) view.findViewById(R.id.img_card_main);
             cardView = (CardView) view.findViewById(R.id.card_row);
         }

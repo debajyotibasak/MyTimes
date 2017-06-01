@@ -1,6 +1,8 @@
 package com.example.droiddebo.mytimes.view;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -75,6 +77,11 @@ public class ArticleActivity extends AppCompatActivity {
             }
         });
 
+
+        AssetManager assetManager = this.getApplicationContext().getAssets();
+        Typeface montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
+        Typeface montserrat_semiBold = Typeface.createFromAsset(assetManager, "fonts/Montserrat-SemiBold.ttf");
+
         /*
         ** We get the response data from the Main Activity as Intents
         **/
@@ -87,18 +94,23 @@ public class ArticleActivity extends AppCompatActivity {
 
         TextView content_Headline = (TextView) findViewById(R.id.content_Headline);
         content_Headline.setText(headLine.replace("- Times of India", ""));
+        content_Headline.setTypeface(montserrat_semiBold);
 
         TextView content_Date = (TextView) findViewById(R.id.content_Date);
-        content_Date.setText(getString(R.string.article_activity_date) + date);
+        content_Date.setText(getString(R.string.article_activity_date) + " " + date);
+        content_Date.setTypeface(montserrat_regular);
 
         TextView content_Description = (TextView) findViewById(R.id.content_Description);
         content_Description.setText(description);
+        content_Description.setTypeface(montserrat_regular);
 
         TextView content_Author = (TextView) findViewById(R.id.content_Author);
-        content_Author.setText(getString(R.string.article_activity_author) + author);
+        content_Author.setText(getString(R.string.article_activity_author) + " " + author);
+        content_Author.setTypeface(montserrat_semiBold);
 
         TextView content_Source = (TextView) findViewById(R.id.content_source);
         content_Source.setText(R.string.article_activity_source);
+        content_Source.setTypeface(montserrat_semiBold);
 
         ImageView collapsingImage = (ImageView) findViewById(R.id.collapsingImage);
         Glide.with(this)
@@ -107,6 +119,8 @@ public class ArticleActivity extends AppCompatActivity {
                 .error(R.drawable.ic_placeholder)
                 .crossFade()
                 .into(collapsingImage);
+
+
     }
 
     @Override
