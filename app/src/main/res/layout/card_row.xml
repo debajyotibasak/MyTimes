@@ -7,6 +7,7 @@
     android:layout_margin="@dimen/card_layout_margin"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:stateListAnimator="@animator/selector_animator"
     card_view:cardBackgroundColor="@color/colorPrimary"
     card_view:cardCornerRadius="@dimen/card_layout_corner_radius"
     card_view:cardElevation="@dimen/card_layout_elevation">
