@@ -1,5 +1,6 @@
 package com.example.droiddebo.mytimes.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -15,8 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.droiddebo.mytimes.model.Article;
 import com.example.droiddebo.mytimes.R;
+import com.example.droiddebo.mytimes.model.Article;
 import com.example.droiddebo.mytimes.view.ArticleActivity;
 
 import java.util.List;
@@ -85,6 +86,8 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
                 intent.putExtra("key_URL", URL);
 
                 mContext.startActivity(intent);
+
+                ((Activity)mContext).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
 

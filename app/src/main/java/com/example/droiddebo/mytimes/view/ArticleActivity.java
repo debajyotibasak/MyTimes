@@ -147,4 +147,10 @@ public class ArticleActivity extends AppCompatActivity {
         MenuItem item = menu.findItem(id);
         item.setVisible(true);
     }
+
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
+    }
 }
