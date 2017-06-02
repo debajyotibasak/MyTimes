@@ -3,4 +3,14 @@
     <color name="colorPrimary">#1C86E0</color>
     <color name="colorPrimaryDark">#3367d6</color>
     <color name="colorAccent">#FFC400</color>
+
+    <!-- OVERWRITE THESE COLORS FOR A LIGHT THEME -->
+    <!-- MaterialDrawer DEFAULT colors -->
+    <color name="material_drawer_background">#1C86E0</color>
+    <!-- Material DEFAULT text / items colors -->
+    <color name="material_drawer_primary_text">@android:color/white</color>
+    <!-- Material DEFAULT drawer colors -->
+    <color name="material_drawer_selected">#3367d6</color>
+    <color name="material_drawer_selected_text">@android:color/white</color>
+    <color name="material_drawer_header_selection_text">#FFF</color>
 </resources>

@@ -11,5 +11,8 @@ import retrofit2.http.Query;
 **/
 public interface ApiInterface {
     @GET("articles")
-    Call<ArticleResponse> getCall(@Query("source") String source, @Query("sortBy") String sortBy, @Query("apiKey") String apiKey);
+    Call<ArticleResponse>
+    getCall(@Query("source") String source,
+            @Query("sortBy") String sortBy,
+            @Query("apiKey") String apiKey);
 }
