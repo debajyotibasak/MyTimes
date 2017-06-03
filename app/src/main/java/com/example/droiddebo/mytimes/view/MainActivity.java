@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.droiddebo.mytimes.MyTimesApplication;
 import com.example.droiddebo.mytimes.R;
@@ -22,6 +23,7 @@ import com.example.droiddebo.mytimes.network.ApiClient;
 import com.example.droiddebo.mytimes.network.ApiInterface;
 import com.example.droiddebo.mytimes.network.interceptors.OfflineResponseCacheInterceptor;
 import com.example.droiddebo.mytimes.network.interceptors.ResponseCacheInterceptor;
+import com.example.droiddebo.mytimes.util.UtilityMethods;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -49,9 +51,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     /*
      ** These 3 strings are very important as they are required for querying the json before parsing.
      **/
-    private String[] SOURCE_ARRAY = {"the-times-of-india","mtv-news","espn-cric-info","the-hindu"};
+    private String[] SOURCE_ARRAY = {"the-times-of-india", "mtv-news", "espn-cric-info", "the-hindu"};
     private String SOURCE;
-    private String[] SORT_BY_VALUES = {"top","latest"};
+    private String[] SORT_BY_VALUES = {"top", "latest"};
     private String SORT_BY;
     private final static String API_KEY = "7ab0b19b6b2142bd8dd2e0ab78258be9";
 
@@ -90,15 +92,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         /*
         ** show loader and fetch messages.
         **/
-        swipeRefreshLayout.post(
-                new Runnable() {
-                    @Override
-                    public void run() {
-                        SOURCE = SOURCE_ARRAY[0];
-                        loadJSON();
-                    }
-                }
-        );
+        SOURCE = SOURCE_ARRAY[0];
+        onLoadingSwipeRefreshLayout();
 
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("The Times of India");
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("MTV News");
@@ -115,55 +110,24 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withSelectedItem(1)
-                .addDrawerItems(item1,item2,item3,item4)
+                .addDrawerItems(item1, item2, item3, item4)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if(drawerItem.getIdentifier()==1){
+                        if (drawerItem.getIdentifier() == 1) {
                             SOURCE = SOURCE_ARRAY[0];
-                            swipeRefreshLayout.post(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadJSON();
-                                        }
-                                    }
-                            );
-                        }
-                        else if(drawerItem.getIdentifier()==2){
+                            onLoadingSwipeRefreshLayout();
+                        } else if (drawerItem.getIdentifier() == 2) {
                             SOURCE = SOURCE_ARRAY[1];
-                            swipeRefreshLayout.post(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadJSON();
-                                        }
-                                    }
-                            );
-                        }
-                        else if(drawerItem.getIdentifier()==3){
+                            onLoadingSwipeRefreshLayout();
+                        } else if (drawerItem.getIdentifier() == 3) {
                             SOURCE = SOURCE_ARRAY[2];
-                            swipeRefreshLayout.post(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadJSON();
-                                        }
-                                    }
-                            );
-                        }
-                        else if(drawerItem.getIdentifier()==4){
+                            onLoadingSwipeRefreshLayout();
+                        } else if (drawerItem.getIdentifier() == 4) {
                             SOURCE = SOURCE_ARRAY[3];
-                            swipeRefreshLayout.post(
-                                    new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            loadJSON();
-                                        }
-                                    }
-                            );
+                            onLoadingSwipeRefreshLayout();
                         }
-                    return false;
+                        return false;
                     }
                 })
                 .build();
@@ -181,28 +145,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 parent.getItemAtPosition(position);
-                if(position == 0){
+                if (position == 0) {
                     SORT_BY = SORT_BY_VALUES[0];
-                    swipeRefreshLayout.post(
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    loadJSON();
-                                }
-                            }
-                    );
-                }
-                else
-                {
+                    onLoadingSwipeRefreshLayout();
+                } else {
                     SORT_BY = SORT_BY_VALUES[1];
-                    swipeRefreshLayout.post(
-                            new Runnable() {
-                                @Override
-                                public void run() {
-                                    loadJSON();
-                                }
-                            }
-                    );
+                    onLoadingSwipeRefreshLayout();
                 }
             }
 
@@ -210,14 +158,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             public void onNothingSelected(AdapterView<?> parent) {
                 parent.getItemAtPosition(0);
                 SORT_BY = SORT_BY_VALUES[0];
-                swipeRefreshLayout.post(
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                loadJSON();
-                            }
-                        }
-                );
+                onLoadingSwipeRefreshLayout();
             }
         });
     }
@@ -293,4 +234,20 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     ** TODO: APP INDEXING(App is not indexable by Google Search; consider adding at least one Activity with an ACTION-VIEW) .
     ** TODO: ADDING ATTRIBUTE android:fullBackupContent
     **/
+    private void onLoadingSwipeRefreshLayout(){
+        if (!UtilityMethods.isNetworkAvailable()) {
+            Toast.makeText(MainActivity.this,
+                    "Internet Not Connected, Please turn on the Internet and try again",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            swipeRefreshLayout.post(
+                    new Runnable() {
+                        @Override
+                        public void run() {
+                            loadJSON();
+                        }
+                    }
+            );
+        }
+    }
 }
