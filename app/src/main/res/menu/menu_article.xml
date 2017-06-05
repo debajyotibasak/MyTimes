@@ -1,10 +1,10 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.droiddebo.mytimes.view.ArticleActivity">
     <item
         android:id="@+id/action_url"
-        android:orderInCategory="100"
         android:title="@string/menu_title_url"
         app:showAsAction="ifRoom"
         android:icon="@drawable/ic_link_white_24dp"/>

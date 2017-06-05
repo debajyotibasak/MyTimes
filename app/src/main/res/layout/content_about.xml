@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.droiddebo.mytimes.view.AboutActivity"
+    tools:showIn="@layout/activity_about">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_made_with_love"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/tv_made_with_love_by"
+                android:textAllCaps="true"
+                android:textColor="@color/colorDarkBackground"
+                android:textSize="16sp" />
+
+            <include layout="@layout/card_info" />
+
+            <TextView
+                android:id="@+id/tv_libraries_used"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/tv_libraries_used"
+                android:textAllCaps="true"
+                android:textColor="@color/colorDarkBackground"
+                android:textSize="16sp" />
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView1"
+                style="@style/card_layout_about"
+                app:cardBackgroundColor="@color/colorCardView"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_info1"
+                        style="@style/card_layout_library_name"
+                        android:text="Material Drawer" />
+
+                    <TextView
+                        android:id="@+id/tv_author1"
+                        style="@style/card_layout_library_author"
+                        android:layout_below="@id/tv_info1"
+                        android:text="Mike Penz" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView2"
+                style="@style/card_layout_about"
+                app:cardBackgroundColor="@color/colorCardView"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_info2"
+                        style="@style/card_layout_library_name"
+                        android:text="Retrofit" />
+
+                    <TextView
+                        android:id="@+id/tv_author2"
+                        style="@style/card_layout_library_author"
+                        android:layout_below="@id/tv_info2"
+                        android:text="Square" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView3"
+                style="@style/card_layout_about"
+                app:cardBackgroundColor="@color/colorCardView"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_info3"
+                        style="@style/card_layout_library_name"
+                        android:text="OkHttp" />
+
+                    <TextView
+                        android:id="@+id/tv_author3"
+                        style="@style/card_layout_library_author"
+                        android:layout_below="@id/tv_info3"
+                        android:text="Square" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/cardView4"
+                style="@style/card_layout_about"
+                android:layout_marginBottom="12dp"
+                app:cardBackgroundColor="@color/colorCardView"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_info4"
+                        style="@style/card_layout_library_name"
+                        android:text="Glide" />
+
+                    <TextView
+                        android:id="@+id/tv_author4"
+                        style="@style/card_layout_library_author"
+                        android:layout_below="@id/tv_info4"
+                        android:text="Bumptech" />
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.v4.widget.NestedScrollView>

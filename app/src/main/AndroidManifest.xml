@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:name=".MyTimesApplication"
         android:allowBackup="true"
@@ -18,13 +17,22 @@
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".view.ArticleActivity"
             android:label="@string/title_activity_article"
+            android:parentActivityName=".view.MainActivity"
+            android:theme="@style/AppTheme"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.droiddebo.mytimes.view.MainActivity" />
+        </activity>
+        <activity
+            android:name=".view.AboutActivity"
+            android:label="About the app"
             android:parentActivityName=".view.MainActivity"
             android:theme="@style/AppTheme"
             tools:targetApi="jelly_bean">

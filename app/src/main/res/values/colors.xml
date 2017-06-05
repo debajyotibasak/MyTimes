@@ -4,7 +4,8 @@
     <color name="colorPrimaryDark">#1976d2</color>
     <color name="colorAccent">#ffff00</color>
     <color name="colorCardView">#FFFFFF</color>
-    <color name="colorBackground">#C5C5C5</color>
+    <color name="colorBackground">#E5E5E5</color>
+    <color name="colorDarkBackground">#227585</color>
 
     <!-- OVERWRITE THESE COLORS FOR A LIGHT THEME -->
     <!-- MaterialDrawer DEFAULT colors -->

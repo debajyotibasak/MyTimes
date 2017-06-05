@@ -1,5 +1,6 @@
 package com.example.droiddebo.mytimes.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +9,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -47,6 +50,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
+    private Menu menu;
 
     /*
      ** These 3 strings are very important as they are required for querying the json before parsing.
@@ -163,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         });
     }
 
+
+
     private void loadJSON() {
         swipeRefreshLayout.setRefreshing(true);
 
@@ -249,5 +255,27 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                     }
             );
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            /*
+            * Load the about menu
+            * */
+            case R.id.action_menu:
+                Intent aboutIntent = new Intent(this, AboutActivity.class);
+                startActivity(aboutIntent);
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,0 +1,47 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/card_layout_margin"
+    android:layout_marginLeft="@dimen/card_layout_margin"
+    android:layout_marginStart="@dimen/card_layout_margin"
+    android:layout_marginEnd="@dimen/card_layout_margin"
+    android:layout_marginRight="@dimen/card_layout_margin"
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    android:stateListAnimator="@animator/selector_animator"
+    card_view:cardBackgroundColor="@color/colorCardView"
+    card_view:cardCornerRadius="@dimen/card_layout_corner_radius"
+    card_view:cardElevation="@dimen/card_layout_elevation">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_card_info"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/iv_card_my_info"
+            android:src="@drawable/ic_profile_pic"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/tv_card_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/iv_card_info"
+            android:layout_toRightOf="@id/iv_card_info"
+            android:layout_margin="@dimen/tv_card_layout_margin"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"
+            android:textStyle="normal"
+            android:gravity="center"
+            android:text="Debajyoti Basak"/>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>
