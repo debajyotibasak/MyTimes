@@ -1,6 +1,9 @@
 package com.example.droiddebo.mytimes.view;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -32,6 +35,8 @@ import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 
 import java.io.File;
@@ -75,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        AssetManager assetManager = this.getApplicationContext().getAssets();
+        Typeface montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 
         /*
@@ -99,10 +107,24 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         SOURCE = SOURCE_ARRAY[0];
         onLoadingSwipeRefreshLayout();
 
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("The Times of India");
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("MTV News");
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withName("ESPN Cric Info");
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName("The Hindu");
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("The Times of India")
+                .withIcon(R.drawable.ic_timesofindia).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("MTV News")
+                .withIcon(R.drawable.ic_mtvnews).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withName("ESPN Cric Info")
+                .withIcon(R.drawable.ic_espncricinfo).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName("The Hindu")
+                .withIcon(R.drawable.ic_thehindu).withTypeface(montserrat_regular);
+        SectionDrawerItem item5 = new SectionDrawerItem().withIdentifier(5).withName("MORE INFO")
+                .withTypeface(montserrat_regular);
+        SecondaryDrawerItem item6 = new SecondaryDrawerItem().withIdentifier(6).withName("About the app")
+                .withIcon(R.drawable.ic_info).withTypeface(montserrat_regular);
+        SecondaryDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(7).withName("Open Source")
+                .withIcon(R.drawable.ic_code).withTypeface(montserrat_regular);
+        SecondaryDrawerItem item8 = new SecondaryDrawerItem().withIdentifier(8).withName("Powered by newsapi.org")
+                .withIcon(R.drawable.ic_power).withTypeface(montserrat_regular);
+        SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(9).withName("Contact us")
+                .withIcon(R.drawable.ic_email).withTypeface(montserrat_regular);
 
         AccountHeader accountheader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -114,7 +136,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withSelectedItem(1)
-                .addDrawerItems(item1, item2, item3, item4)
+                .addDrawerItems(item1, item2, item3, item4, item5, item6, item7, item8, item9)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
@@ -130,6 +152,16 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         } else if (drawerItem.getIdentifier() == 4) {
                             SOURCE = SOURCE_ARRAY[3];
                             onLoadingSwipeRefreshLayout();
+                        } else if (drawerItem.getIdentifier() == 6) {
+                            openAboutActivity();
+                        } else if (drawerItem.getIdentifier() == 7) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/debo1994/MyTimes"));
+                            startActivity(browserIntent);
+                        } else if (drawerItem.getIdentifier() == 8) {
+                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://newsapi.org/"));
+                            startActivity(browserIntent);
+                        } else if (drawerItem.getIdentifier() == 9) {
+                            sendEmail();
                         }
                         return false;
                     }
@@ -272,10 +304,35 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             * Load the about menu
             * */
             case R.id.action_menu:
-                Intent aboutIntent = new Intent(this, AboutActivity.class);
-                startActivity(aboutIntent);
+                openAboutActivity();
 
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openAboutActivity(){
+        Intent aboutIntent = new Intent(this, AboutActivity.class);
+        startActivity(aboutIntent);
+        this.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+    }
+
+    public void sendEmail(){
+        Log.i("Send email", "");
+        String[] TO = {"d.basak.db@gmail.com"};
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+
+        emailIntent.setData(Uri.parse("mailto:"));
+        emailIntent.setType("text/plain");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
+
+        try {
+            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
+            finish();
+            Log.i("Finished sending email", "");
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

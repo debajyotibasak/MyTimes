@@ -12,6 +12,7 @@
     <color name="material_drawer_background">#2196f3</color>
     <!-- Material DEFAULT text / items colors -->
     <color name="material_drawer_primary_text">@android:color/white</color>
+    <color name="material_drawer_secondary_text">@android:color/white</color>
     <!-- Material DEFAULT drawer colors -->
     <color name="material_drawer_selected">#1976d2</color>
     <color name="material_drawer_selected_text">@android:color/white</color>
