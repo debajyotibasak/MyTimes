@@ -96,9 +96,9 @@ public class ArticleActivity extends AppCompatActivity {
         content_Headline.setText(headLine.replace("- Times of India", ""));
         content_Headline.setTypeface(montserrat_semiBold);
 
-        TextView content_Date = (TextView) findViewById(R.id.content_Date);
-        content_Date.setText(getString(R.string.article_activity_date) + " " + date);
-        content_Date.setTypeface(montserrat_regular);
+//        TextView content_Date = (TextView) findViewById(R.id.content_Date);
+//        content_Date.setText(getString(R.string.article_activity_date) + " " + date);
+//        content_Date.setTypeface(montserrat_regular);
 
         TextView content_Description = (TextView) findViewById(R.id.content_Description);
         content_Description.setText(description);
@@ -108,9 +108,9 @@ public class ArticleActivity extends AppCompatActivity {
         content_Author.setText(getString(R.string.article_activity_author) + " " + author);
         content_Author.setTypeface(montserrat_semiBold);
 
-        TextView content_Source = (TextView) findViewById(R.id.content_source);
-        content_Source.setText(R.string.article_activity_source);
-        content_Source.setTypeface(montserrat_semiBold);
+//        TextView content_Source = (TextView) findViewById(R.id.content_source);
+//        content_Source.setText(R.string.article_activity_source);
+//        content_Source.setTypeface(montserrat_semiBold);
 
         ImageView collapsingImage = (ImageView) findViewById(R.id.collapsingImage);
         Glide.with(this)

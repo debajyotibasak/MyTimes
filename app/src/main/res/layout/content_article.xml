@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:orientation="vertical">
 
         <TextView
@@ -26,15 +27,15 @@
             android:textStyle="bold"
             tools:text="Headline" />
 
-        <TextView
-            android:id="@+id/content_Date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/text_margin"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="normal"
-            tools:text="Date" />
+        <!--<TextView-->
+            <!--android:id="@+id/content_Date"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="@dimen/text_margin"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="@dimen/text_size_small"-->
+            <!--android:textStyle="normal"-->
+            <!--tools:text="Date" />-->
 
         <TextView
             android:id="@+id/content_Description"
@@ -47,18 +48,18 @@
             android:textStyle="normal"
             tools:text="Story" />
 
-        <TextView
-            android:id="@+id/content_source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
-            android:layout_marginTop="@dimen/text_margin"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/text_size_small"
-            android:textStyle="bold"
-            tools:text="Source" />
+        <!--<TextView-->
+            <!--android:id="@+id/content_source"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:layout_marginEnd="@dimen/text_margin"-->
+            <!--android:layout_marginRight="@dimen/text_margin"-->
+            <!--android:layout_marginTop="@dimen/text_margin"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="@dimen/text_size_small"-->
+            <!--android:textStyle="bold"-->
+            <!--tools:text="Source" />-->
 
         <TextView
             android:id="@+id/content_Author"

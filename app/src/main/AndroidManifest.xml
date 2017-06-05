@@ -26,7 +26,7 @@
             android:name=".view.ArticleActivity"
             android:label="@string/title_activity_article"
             android:parentActivityName=".view.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
