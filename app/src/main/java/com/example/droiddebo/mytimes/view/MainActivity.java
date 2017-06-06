@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         AccountHeader accountheader = new AccountHeaderBuilder()
                 .withActivity(this)
-                .withHeaderBackground(R.drawable.background_acc_header)
+                .withHeaderBackground(R.drawable.ic_back)
                 .build();
 
         result = new DrawerBuilder()
