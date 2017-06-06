@@ -57,7 +57,6 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-    private Menu menu;
 
     /*
      ** These 3 strings are very important as they are required for querying the json before parsing.
@@ -71,7 +70,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private List<Article> articles = new ArrayList<>();
     private DataAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private RecyclerView recyclerView;
     private Drawer result;
     private AccountHeader accountHeader;
     private Toolbar toolbar;
@@ -91,8 +89,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
             createToolbar();
             createRecyclerView();
             createSpinner();
-//            this.myBundle = savedInstanceState;
-//            onLoadingSwipeRefreshLayout();
             createDrawer(savedInstanceState, toolbar, montserrat_regular);
             return;
         }
@@ -123,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void createRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 
         /*
         ** SwipeRefreshLayout is used for reloading the JSON by pulling the refresh button from top
@@ -321,24 +317,23 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void onLoadingSwipeRefreshLayout() {
         if (!UtilityMethods.isNetworkAvailable()) {
             Toast.makeText(MainActivity.this,
-                    "Internet Not Connected, Please turn on the Internet and try again",
+                    "Could not load latest News. Please turn on the Internet.",
                     Toast.LENGTH_SHORT).show();
-        } else {
-            swipeRefreshLayout.post(
-                    new Runnable() {
-                        @Override
-                        public void run() {
-                            loadJSON();
-                        }
-                    }
-            );
         }
+        swipeRefreshLayout.post(
+                new Runnable() {
+                    @Override
+                    public void run() {
+                        loadJSON();
+                    }
+                }
+        );
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        this.menu = menu;
+//        Menu menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
