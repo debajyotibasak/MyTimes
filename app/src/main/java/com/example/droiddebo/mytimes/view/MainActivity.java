@@ -1,5 +1,6 @@
 package com.example.droiddebo.mytimes.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
@@ -7,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -69,21 +71,59 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private List<Article> articles = new ArrayList<>();
     private DataAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private Drawer result = null;
+    private RecyclerView recyclerView;
+    private Drawer result;
+    private AccountHeader accountHeader;
+    private Toolbar toolbar;
+
+    private Typeface montserrat_regular;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main_activity);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (savedInstanceState != null) {
+
+            SOURCE = savedInstanceState.getString("SOURCE");
+            SORT_BY = savedInstanceState.getString("SORT_BY");
+
+            createToolbar();
+            createRecyclerView();
+            createSpinner();
+//            this.myBundle = savedInstanceState;
+//            onLoadingSwipeRefreshLayout();
+            createDrawer(savedInstanceState, toolbar, montserrat_regular);
+            return;
+        }
+
+        createToolbar();
 
         AssetManager assetManager = this.getApplicationContext().getAssets();
-        Typeface montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
+        montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+        createRecyclerView();
+
+        /*
+        ** show loader and fetch messages.
+        **/
+        SOURCE = SOURCE_ARRAY[0];
+        onLoadingSwipeRefreshLayout();
+
+        createDrawer(savedInstanceState, toolbar, montserrat_regular);
+
+        createSpinner();
+
+    }
+
+    private void createToolbar() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar_main_activity);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    private void createRecyclerView() {
+        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 
         /*
         ** SwipeRefreshLayout is used for reloading the JSON by pulling the refresh button from top
@@ -100,13 +140,46 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
+        recyclerView.getLayoutManager().onSaveInstanceState();
+    }
 
-        /*
-        ** show loader and fetch messages.
-        **/
-        SOURCE = SOURCE_ARRAY[0];
-        onLoadingSwipeRefreshLayout();
+    public void createSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_toolbar);
 
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
+                R.layout.spinner_list_item,
+                getResources().getStringArray(R.array.spinner));
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(spinnerAdapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                parent.getItemAtPosition(position);
+                if (position == 0) {
+                    SORT_BY = SORT_BY_VALUES[0];
+                    onLoadingSwipeRefreshLayout();
+                } else {
+                    SORT_BY = SORT_BY_VALUES[1];
+                    onLoadingSwipeRefreshLayout();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                parent.getItemAtPosition(0);
+                SORT_BY = SORT_BY_VALUES[0];
+                onLoadingSwipeRefreshLayout();
+            }
+        });
+
+//        if (this.myBundle != null){
+//            spinner.setSelection(myBundle.getInt("spinner", 0));
+//        }
+    }
+
+    private void createDrawer(Bundle savedInstanceState, Toolbar toolbar, Typeface montserrat_regular) {
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("The Times of India")
                 .withIcon(R.drawable.ic_timesofindia).withTypeface(montserrat_regular);
         PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("MTV News")
@@ -126,13 +199,14 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(9).withName("Contact us")
                 .withIcon(R.drawable.ic_email).withTypeface(montserrat_regular);
 
-        AccountHeader accountheader = new AccountHeaderBuilder()
+        accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
                 .withHeaderBackground(R.drawable.ic_back)
+                .withSavedInstance(savedInstanceState)
                 .build();
 
         result = new DrawerBuilder()
-                .withAccountHeader(accountheader)
+                .withAccountHeader(accountHeader)
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withSelectedItem(1)
@@ -166,39 +240,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                         return false;
                     }
                 })
+                .withSavedInstance(savedInstanceState)
                 .build();
 
-
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_toolbar);
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
-                R.layout.spinner_list_item,
-                getResources().getStringArray(R.array.spinner));
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(spinnerAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parent.getItemAtPosition(position);
-                if (position == 0) {
-                    SORT_BY = SORT_BY_VALUES[0];
-                    onLoadingSwipeRefreshLayout();
-                } else {
-                    SORT_BY = SORT_BY_VALUES[1];
-                    onLoadingSwipeRefreshLayout();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                parent.getItemAtPosition(0);
-                SORT_BY = SORT_BY_VALUES[0];
-                onLoadingSwipeRefreshLayout();
-            }
-        });
     }
-
 
 
     private void loadJSON() {
@@ -268,11 +313,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onRefresh() {
         loadJSON();
     }
+
     /*
     ** TODO: APP INDEXING(App is not indexable by Google Search; consider adding at least one Activity with an ACTION-VIEW) .
     ** TODO: ADDING ATTRIBUTE android:fullBackupContent
     **/
-    private void onLoadingSwipeRefreshLayout(){
+    private void onLoadingSwipeRefreshLayout() {
         if (!UtilityMethods.isNetworkAvailable()) {
             Toast.makeText(MainActivity.this,
                     "Internet Not Connected, Please turn on the Internet and try again",
@@ -310,13 +356,13 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         return super.onOptionsItemSelected(item);
     }
 
-    public void openAboutActivity(){
+    public void openAboutActivity() {
         Intent aboutIntent = new Intent(this, AboutActivity.class);
         startActivity(aboutIntent);
         this.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 
-    public void sendEmail(){
+    public void sendEmail() {
         Log.i("Send email", "");
         String[] TO = {"d.basak.db@gmail.com"};
         Intent emailIntent = new Intent(Intent.ACTION_SEND);
@@ -334,5 +380,41 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         } catch (android.content.ActivityNotFoundException ex) {
             Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.MyAlertDialogStyle);
+        builder.setTitle(R.string.app_name);
+        builder.setIcon(R.mipmap.ic_launcher_round);
+        builder.setMessage("Do you want to Exit?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+
+        //add the values which need to be saved from the drawer to the bundle
+        bundle = result.saveInstanceState(bundle);
+        //add the values which need to be saved from the accountHeader to the bundle
+        bundle = accountHeader.saveInstanceState(bundle);
+
+        super.onSaveInstanceState(bundle);
+
+        bundle.putString("SOURCE", SOURCE);
+        bundle.putString("SORT_BY", SORT_BY);
     }
 }
