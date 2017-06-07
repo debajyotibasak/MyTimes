@@ -6,6 +6,7 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -17,9 +18,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.droiddebo.mytimes.MyTimesApplication;
@@ -40,6 +39,7 @@ import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
 import com.mikepenz.materialdrawer.model.SectionDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -57,14 +57,15 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    private static final String LIST_STATE_KEY = "recycler_list_state";
+    private String SAVE_TEXT = "save_text";
     /*
      ** These 3 strings are very important as they are required for querying the json before parsing.
      **/
-    private String[] SOURCE_ARRAY = {"the-times-of-india", "mtv-news", "espn-cric-info", "the-hindu"};
+    private String[] SOURCE_ARRAY = {"bbc-news", "the-hindu", "the-times-of-india", "mtv-news", "bbc-sport",
+            "espn-cric-info", "talksport", "the-verge", "techcrunch", "techradar"};
     private String SOURCE;
-    private String[] SORT_BY_VALUES = {"top", "latest"};
-    private String SORT_BY;
+    private String SORT_BY = "top";
     private final static String API_KEY = "7ab0b19b6b2142bd8dd2e0ab78258be9";
 
     private List<Article> articles = new ArrayList<>();
@@ -73,53 +74,58 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private Drawer result;
     private AccountHeader accountHeader;
     private Toolbar toolbar;
-
+    private RecyclerView recyclerView;
+    private Parcelable listState;
     private Typeface montserrat_regular;
+    private TextView mTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if (savedInstanceState != null) {
+//        if (savedInstanceState != null) {
+//
+//            SOURCE = savedInstanceState.getString("SOURCE");
+//            createToolbar();
+//            toolbar.setTitle(savedInstanceState.getString("TOOLBAR"));
+////            createRecyclerView();
+//            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+//            createDrawer(savedInstanceState, toolbar, montserrat_regular);
+//            return;
+//        }
 
-            SOURCE = savedInstanceState.getString("SOURCE");
-            SORT_BY = savedInstanceState.getString("SORT_BY");
 
-            createToolbar();
-            createRecyclerView();
-            createSpinner();
-            createDrawer(savedInstanceState, toolbar, montserrat_regular);
-            return;
-        }
-
-        createToolbar();
 
         AssetManager assetManager = this.getApplicationContext().getAssets();
         montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
+        createToolbar();
         createRecyclerView();
 
         /*
         ** show loader and fetch messages.
         **/
         SOURCE = SOURCE_ARRAY[0];
+        mTitle.setText("BBC News");
         onLoadingSwipeRefreshLayout();
 
         createDrawer(savedInstanceState, toolbar, montserrat_regular);
-
-        createSpinner();
 
     }
 
     private void createToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_main_activity);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+        mTitle = (TextView) findViewById(R.id.toolbar_title);
+        mTitle.setTypeface(montserrat_regular);
     }
 
     private void createRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
 
         /*
         ** SwipeRefreshLayout is used for reloading the JSON by pulling the refresh button from top
@@ -136,63 +142,47 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapter);
-        recyclerView.getLayoutManager().onSaveInstanceState();
+
     }
 
-    public void createSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.spinner_toolbar);
-
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
-                R.layout.spinner_list_item,
-                getResources().getStringArray(R.array.spinner));
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        spinner.setAdapter(spinnerAdapter);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                parent.getItemAtPosition(position);
-                if (position == 0) {
-                    SORT_BY = SORT_BY_VALUES[0];
-                    onLoadingSwipeRefreshLayout();
-                } else {
-                    SORT_BY = SORT_BY_VALUES[1];
-                    onLoadingSwipeRefreshLayout();
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                parent.getItemAtPosition(0);
-                SORT_BY = SORT_BY_VALUES[0];
-                onLoadingSwipeRefreshLayout();
-            }
-        });
-
-//        if (this.myBundle != null){
-//            spinner.setSelection(myBundle.getInt("spinner", 0));
-//        }
-    }
-
-    private void createDrawer(Bundle savedInstanceState, Toolbar toolbar, Typeface montserrat_regular) {
-        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("The Times of India")
-                .withIcon(R.drawable.ic_timesofindia).withTypeface(montserrat_regular);
-        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("MTV News")
-                .withIcon(R.drawable.ic_mtvnews).withTypeface(montserrat_regular);
-        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withName("ESPN Cric Info")
-                .withIcon(R.drawable.ic_espncricinfo).withTypeface(montserrat_regular);
-        PrimaryDrawerItem item4 = new PrimaryDrawerItem().withIdentifier(4).withName("The Hindu")
+    private void createDrawer(Bundle savedInstanceState, final Toolbar toolbar, Typeface montserrat_regular) {
+        PrimaryDrawerItem item0 = new PrimaryDrawerItem().withIdentifier(0).withName("GENERAL")
+                .withTypeface(montserrat_regular).withSelectable(false);
+        PrimaryDrawerItem item1 = new PrimaryDrawerItem().withIdentifier(1).withName("BBC News")
+                .withIcon(R.drawable.ic_bbcnews).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withIdentifier(2).withName("The Hindu")
                 .withIcon(R.drawable.ic_thehindu).withTypeface(montserrat_regular);
-        SectionDrawerItem item5 = new SectionDrawerItem().withIdentifier(5).withName("MORE INFO")
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withIdentifier(3).withName("The Times of India")
+                .withIcon(R.drawable.ic_timesofindia).withTypeface(montserrat_regular);
+        SectionDrawerItem item4 = new SectionDrawerItem().withIdentifier(4).withName("ENTERTAINMENT")
                 .withTypeface(montserrat_regular);
-        SecondaryDrawerItem item6 = new SecondaryDrawerItem().withIdentifier(6).withName("About the app")
+        PrimaryDrawerItem item5 = new PrimaryDrawerItem().withIdentifier(5).withName("MTV News")
+                .withIcon(R.drawable.ic_mtvnews).withTypeface(montserrat_regular);
+        SectionDrawerItem item6 = new SectionDrawerItem().withIdentifier(6).withName("SPORTS")
+                .withTypeface(montserrat_regular);
+        PrimaryDrawerItem item7 = new PrimaryDrawerItem().withIdentifier(7).withName("BBC Sports")
+                .withIcon(R.drawable.ic_bbcsports).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item8 = new PrimaryDrawerItem().withIdentifier(8).withName("ESPN Cric Info")
+                .withIcon(R.drawable.ic_espncricinfo).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item9= new PrimaryDrawerItem().withIdentifier(9).withName("TalkSport")
+                .withIcon(R.drawable.ic_talksport).withTypeface(montserrat_regular);
+        SectionDrawerItem item10 = new SectionDrawerItem().withIdentifier(10).withName("TECHNOLOGY")
+                .withTypeface(montserrat_regular);
+        PrimaryDrawerItem item11 = new PrimaryDrawerItem().withIdentifier(11).withName("The Verge")
+                .withIcon(R.drawable.ic_theverge).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item12 = new PrimaryDrawerItem().withIdentifier(12).withName("TechCrunch")
+                .withIcon(R.drawable.ic_techcrunch).withTypeface(montserrat_regular);
+        PrimaryDrawerItem item13= new PrimaryDrawerItem().withIdentifier(13).withName("TechRadar")
+                .withIcon(R.drawable.ic_techradar).withTypeface(montserrat_regular);
+        SectionDrawerItem item14 = new SectionDrawerItem().withIdentifier(14).withName("MORE INFO")
+                .withTypeface(montserrat_regular);
+        SecondaryDrawerItem item15 = new SecondaryDrawerItem().withIdentifier(15).withName("About the app")
                 .withIcon(R.drawable.ic_info).withTypeface(montserrat_regular);
-        SecondaryDrawerItem item7 = new SecondaryDrawerItem().withIdentifier(7).withName("Open Source")
+        SecondaryDrawerItem item16 = new SecondaryDrawerItem().withIdentifier(16).withName("Open Source")
                 .withIcon(R.drawable.ic_code).withTypeface(montserrat_regular);
-        SecondaryDrawerItem item8 = new SecondaryDrawerItem().withIdentifier(8).withName("Powered by newsapi.org")
+        SecondaryDrawerItem item17 = new SecondaryDrawerItem().withIdentifier(17).withName("Powered by newsapi.org")
                 .withIcon(R.drawable.ic_power).withTypeface(montserrat_regular);
-        SecondaryDrawerItem item9 = new SecondaryDrawerItem().withIdentifier(9).withName("Contact us")
+        SecondaryDrawerItem item18 = new SecondaryDrawerItem().withIdentifier(18).withName("Contact us")
                 .withIcon(R.drawable.ic_email).withTypeface(montserrat_regular);
 
         accountHeader = new AccountHeaderBuilder()
@@ -206,34 +196,56 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withSelectedItem(1)
-                .addDrawerItems(item1, item2, item3, item4, item5, item6, item7, item8, item9)
+                .addDrawerItems(item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,
+                        item10,item11,item12,item13,item14,item15,item16,item17,item18)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
-                        if (drawerItem.getIdentifier() == 1) {
-                            SOURCE = SOURCE_ARRAY[0];
-                            onLoadingSwipeRefreshLayout();
-                        } else if (drawerItem.getIdentifier() == 2) {
-                            SOURCE = SOURCE_ARRAY[1];
-                            onLoadingSwipeRefreshLayout();
-                        } else if (drawerItem.getIdentifier() == 3) {
-                            SOURCE = SOURCE_ARRAY[2];
-                            onLoadingSwipeRefreshLayout();
-                        } else if (drawerItem.getIdentifier() == 4) {
-                            SOURCE = SOURCE_ARRAY[3];
-                            onLoadingSwipeRefreshLayout();
-                        } else if (drawerItem.getIdentifier() == 6) {
-                            openAboutActivity();
-                        } else if (drawerItem.getIdentifier() == 7) {
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/debo1994/MyTimes"));
-                            startActivity(browserIntent);
-                        } else if (drawerItem.getIdentifier() == 8) {
-                            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://newsapi.org/"));
-                            startActivity(browserIntent);
-                        } else if (drawerItem.getIdentifier() == 9) {
-                            sendEmail();
+                        int selected = (int) (long) drawerItem.getIdentifier();
+                        switch (selected) {
+                            case 1: SOURCE = SOURCE_ARRAY[0]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 2: SOURCE = SOURCE_ARRAY[1]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 3: SOURCE = SOURCE_ARRAY[2]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 5: SOURCE = SOURCE_ARRAY[3]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 7: SOURCE = SOURCE_ARRAY[4]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 8: SOURCE = SOURCE_ARRAY[5]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 9: SOURCE = SOURCE_ARRAY[6]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 11: SOURCE = SOURCE_ARRAY[7]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 12: SOURCE = SOURCE_ARRAY[8]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 13: SOURCE = SOURCE_ARRAY[9]; onLoadingSwipeRefreshLayout();
+                                mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
+                                break;
+                            case 15: openAboutActivity(); break;
+                            case 16: Intent browserSource = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://github.com/debo1994/MyTimes"));
+                                    startActivity(browserSource);
+                                    break;
+                            case 17: Intent browserAPI = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://newsapi.org/"));
+                                    startActivity(browserAPI);
+                                    break;
+                            case 18: sendEmail(); break;
+                            default: break;
                         }
-                        return false;
+                       return false;
                     }
                 })
                 .withSavedInstance(savedInstanceState)
@@ -332,8 +344,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        Menu menu = menu;
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -408,8 +418,32 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         bundle = accountHeader.saveInstanceState(bundle);
 
         super.onSaveInstanceState(bundle);
-
+        listState = recyclerView.getLayoutManager().onSaveInstanceState();
+        bundle.putParcelable(LIST_STATE_KEY, listState);
         bundle.putString("SOURCE", SOURCE);
-        bundle.putString("SORT_BY", SORT_BY);
+//        bundle.putString("TOOLBAR", toolbar.getTitle().toString());
+        bundle.putString(SAVE_TEXT, mTitle.getText().toString());
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        if (savedInstanceState != null) {
+
+            SOURCE = savedInstanceState.getString("SOURCE");
+            createToolbar();
+//            toolbar.setTitle(savedInstanceState.getString("TOOLBAR"));
+            mTitle.setText(savedInstanceState.getString(SAVE_TEXT));
+            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            createDrawer(savedInstanceState, toolbar, montserrat_regular);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(listState!=null){
+            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        }
     }
 }

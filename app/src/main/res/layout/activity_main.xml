@@ -16,16 +16,16 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <Spinner
-                android:id="@+id/spinner_toolbar"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            >
+            <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_marginStart="10dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textColor="@android:color/white"
+                android:id="@+id/toolbar_title"/>
         </android.support.v7.widget.Toolbar>
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main" />
