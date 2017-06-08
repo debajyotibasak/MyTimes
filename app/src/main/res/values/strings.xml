@@ -11,6 +11,7 @@
     <string name="tv_made_with_love_by">Made with love by</string>
     <string name="iv_card_my_info">My Photo</string>
     <string name="tv_libraries_used">Libraries Used</string>
+    <string name="toolbar_default_text">BBC News</string>
 
     <string-array name="spinner">
         <item>TOP HEADLINES</item>

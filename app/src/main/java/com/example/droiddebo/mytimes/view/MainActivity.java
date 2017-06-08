@@ -107,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         ** show loader and fetch messages.
         **/
         SOURCE = SOURCE_ARRAY[0];
-        mTitle.setText("BBC News");
+        mTitle.setText(R.string.toolbar_default_text);
         onLoadingSwipeRefreshLayout();
 
         createDrawer(savedInstanceState, toolbar, montserrat_regular);

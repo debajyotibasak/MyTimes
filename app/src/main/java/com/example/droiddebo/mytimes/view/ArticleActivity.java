@@ -5,13 +5,14 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,8 +26,11 @@ import com.example.droiddebo.mytimes.R;
 
 public class ArticleActivity extends AppCompatActivity {
 
+    private Boolean isFabOpen = false;
     private Menu menu;
     private String URL;
+    private FloatingActionButton fab, fab1, fab2;
+    private Animation fab_open, fab_close, rotate_forward, rotate_backward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,46 +40,38 @@ public class ArticleActivity extends AppCompatActivity {
         /*
         ** Custom Toolbar ( App Bar )
         **/
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false); // For not showing the title of the toolbar
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        createToolbar();
 
         /*
         ** Action of the Floating Action Button ( FAB )
         **/
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-                startActivity(browserIntent);
-            }
-        });
+        floatingButton();
+
+
 
         /*
         ** Customising animations of the AppBar Layout
         **/
-        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-
-            boolean isShow = false;
-            int scrollRange = -1;
-
-            @Override
-            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.getTotalScrollRange();
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    isShow = true;
-                    showOption(R.id.action_url);
-                } else if (isShow) {
-                    isShow = false;
-                    hideOption(R.id.action_url);
-                }
-            }
-        });
+//        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
+//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+//
+//            boolean isShow = false;
+//            int scrollRange = -1;
+//
+//            @Override
+//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+//                if (scrollRange == -1) {
+//                    scrollRange = appBarLayout.getTotalScrollRange();
+//                }
+//                if (scrollRange + verticalOffset == 0) {
+//                    isShow = true;
+//                    showOption(R.id.action_url);
+//                } else if (isShow) {
+//                    isShow = false;
+//                    hideOption(R.id.action_url);
+//                }
+//            }
+//        });
 
 
         AssetManager assetManager = this.getApplicationContext().getAssets();
@@ -85,6 +81,12 @@ public class ArticleActivity extends AppCompatActivity {
         /*
         ** We get the response data from the Main Activity as Intents
         **/
+        receiveFromDataAdapter(montserrat_regular, montserrat_semiBold);
+
+
+    }
+
+    private void receiveFromDataAdapter(Typeface montserrat_regular, Typeface montserrat_semiBold) {
         String headLine = getIntent().getStringExtra("key_HeadLine");
         String author = getIntent().getStringExtra("key_author");
         String description = getIntent().getStringExtra("key_description");
@@ -119,18 +121,58 @@ public class ArticleActivity extends AppCompatActivity {
                 .error(R.drawable.ic_placeholder)
                 .crossFade()
                 .into(collapsingImage);
-
-
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        this.menu = menu;
-        getMenuInflater().inflate(R.menu.menu_article, menu);
-
-        return true;
+    private void createToolbar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false); // For not showing the title of the toolbar
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
+
+    private void floatingButton() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
+        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
+        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
+        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
+        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
+        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animateFAB();
+            }
+        });
+        fab1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this news! Send from MyTimes App\n" +
+                        Uri.parse(URL));
+
+                startActivity(Intent.createChooser(shareIntent, "Share with"));
+            }
+        });
+        fab2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+                startActivity(browserIntent);
+            }
+        });
+    }
+
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        this.menu = menu;
+//        getMenuInflater().inflate(R.menu.menu_article, menu);
+//
+//        return true;
+//    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -138,9 +180,9 @@ public class ArticleActivity extends AppCompatActivity {
             /*
             * Load the URL to the news when pressing the URL button
             * */
-            case R.id.action_url:
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-                startActivity(browserIntent);
+//            case R.id.action_url:
+//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+//                startActivity(browserIntent);
 
             /*
             * Override the Up/Home Button
@@ -152,14 +194,33 @@ public class ArticleActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void hideOption(int id) {
-        MenuItem item = menu.findItem(id);
-        item.setVisible(false);
-    }
+//    private void hideOption(int id) {
+//        MenuItem item = menu.findItem(id);
+//        item.setVisible(false);
+//    }
+//
+//    private void showOption(int id) {
+//        MenuItem item = menu.findItem(id);
+//        item.setVisible(true);
+//    }
 
-    private void showOption(int id) {
-        MenuItem item = menu.findItem(id);
-        item.setVisible(true);
+    private void animateFAB(){
+
+        if(isFabOpen){
+            fab.startAnimation(rotate_backward);
+            fab1.startAnimation(fab_close);
+            fab2.startAnimation(fab_close);
+            fab1.setClickable(false);
+            fab2.setClickable(false);
+            isFabOpen = false;
+        } else {
+            fab.startAnimation(rotate_forward);
+            fab1.startAnimation(fab_open);
+            fab2.startAnimation(fab_open);
+            fab1.setClickable(true);
+            fab2.setClickable(true);
+            isFabOpen = true;
+        }
     }
 
     @Override
