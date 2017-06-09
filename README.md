@@ -4,4 +4,15 @@
 
 [https://newsapi.org/](url)
 
-**MADE with <3 by: [Debajyoti Basak](https://www.linkedin.com/in/debajyoti-basak-698981119 "LinkedIn Profile") (d.basak.db@gmail.com)**
+
+
+**MADE by: [Debajyoti Basak](https://www.linkedin.com/in/debajyoti-basak-698981119 "LinkedIn Profile") (d.basak.db@gmail.com)**
+
+**Features:**
+- Fetches News from 10 sources (will add more in the future)
+- Option of sharing the news with friends.
+- Read the full news by following the link provided in the Article.
+- Beautiful Blue Theme made with Material Design Guidelines by Google.
+- Read news in offline mode without internet.
+
+
