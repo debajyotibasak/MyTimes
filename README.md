@@ -4,3 +4,4 @@
 
 [https://newsapi.org/](url)
 
+**MADE with <3 by: [Debajyoti Basak](https://www.linkedin.com/in/debajyoti-basak-698981119 "LinkedIn Profile") (d.basak.db@gmail.com)**
