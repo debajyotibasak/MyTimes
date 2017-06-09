@@ -13,7 +13,11 @@
 - Beautiful Blue Theme made with Material Design Guidelines by Google.
 - Read news in offline mode without internet.
 
+**News Sources**
+
 ![new sources](https://user-images.githubusercontent.com/16916934/26977484-b6671362-4d45-11e7-9081-a716805de193.png)
+
+**Screenshots**
 
 ![screenshot 1](https://user-images.githubusercontent.com/16916934/26979049-2369b898-4d4b-11e7-9a81-54822ee87020.png)
 ![screenshot 2](https://user-images.githubusercontent.com/16916934/26979051-236c5cba-4d4b-11e7-855a-20c3ecc22fd6.png)
