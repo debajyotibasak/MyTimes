@@ -15,6 +15,11 @@
 
 ![new sources](https://user-images.githubusercontent.com/16916934/26977484-b6671362-4d45-11e7-9081-a716805de193.png)
 
+![screenshot 1](https://user-images.githubusercontent.com/16916934/26979049-2369b898-4d4b-11e7-9a81-54822ee87020.png)
+![screenshot 2](https://user-images.githubusercontent.com/16916934/26979051-236c5cba-4d4b-11e7-855a-20c3ecc22fd6.png)
+![screenshot 3](https://user-images.githubusercontent.com/16916934/26979182-93a4177a-4d4b-11e7-9495-71a7af58f8c8.png)
+![screenshot 4](https://user-images.githubusercontent.com/16916934/26979183-93f821ee-4d4b-11e7-84ac-14a0fa6becb4.png)
+
 **What I have learned from this project:**
 - Fetching JSON data and parsing it.
 - Working with libraries like Retrofit and GSON
@@ -27,6 +32,11 @@
 - **[Retrofit2](https://github.com/square/retrofit)**
 - **[OkHTTP3](https://github.com/square/okhttp)**
 - **[Glide](https://github.com/bumptech/glide)**
+
+**It a fully Open Source project so go ahead and fork it.**
+
+**_Contributions are also welcome._**
+
 
 
 
