@@ -12,7 +12,7 @@
         android:layout_gravity="center"
         android:layout_margin="16dp"
         android:scaleType="fitCenter"
-        android:src="@raw/ic_launcher_round" />
+        android:src="@raw/ic_launcher" />
 
     <TextView
         android:id="@+id/about_header_app_name"
