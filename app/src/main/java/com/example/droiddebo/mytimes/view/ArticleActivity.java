@@ -11,8 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,11 +25,9 @@ import com.example.droiddebo.mytimes.R;
 
 public class ArticleActivity extends AppCompatActivity {
 
-    private Boolean isFabOpen = false;
     private Menu menu;
     private String URL;
-    private FloatingActionButton fab, fab1, fab2;
-    private Animation fab_open, fab_close, rotate_forward, rotate_backward;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,33 +44,6 @@ public class ArticleActivity extends AppCompatActivity {
         **/
         floatingButton();
 
-
-
-        /*
-        ** Customising animations of the AppBar Layout
-        **/
-//        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
-//        appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-//
-//            boolean isShow = false;
-//            int scrollRange = -1;
-//
-//            @Override
-//            public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-//                if (scrollRange == -1) {
-//                    scrollRange = appBarLayout.getTotalScrollRange();
-//                }
-//                if (scrollRange + verticalOffset == 0) {
-//                    isShow = true;
-//                    showOption(R.id.action_url);
-//                } else if (isShow) {
-//                    isShow = false;
-//                    hideOption(R.id.action_url);
-//                }
-//            }
-//        });
-
-
         AssetManager assetManager = this.getApplicationContext().getAssets();
         Typeface montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
         Typeface montserrat_semiBold = Typeface.createFromAsset(assetManager, "fonts/Montserrat-SemiBold.ttf");
@@ -83,7 +53,19 @@ public class ArticleActivity extends AppCompatActivity {
         **/
         receiveFromDataAdapter(montserrat_regular, montserrat_semiBold);
 
+        buttonLinktoFullArticle(montserrat_regular);
+    }
 
+    private void buttonLinktoFullArticle(Typeface montserrat_regular) {
+        Button linkToFullArticle = (Button) findViewById(R.id.article_button);
+        linkToFullArticle.setTypeface(montserrat_regular);
+        linkToFullArticle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
+                startActivity(browserIntent);
+            }
+        });
     }
 
     private void receiveFromDataAdapter(Typeface montserrat_regular, Typeface montserrat_semiBold) {
@@ -95,24 +77,12 @@ public class ArticleActivity extends AppCompatActivity {
         URL = getIntent().getStringExtra("key_URL");
 
         TextView content_Headline = (TextView) findViewById(R.id.content_Headline);
-        content_Headline.setText(headLine.replace("- Times of India", ""));
+        content_Headline.setText(headLine);
         content_Headline.setTypeface(montserrat_semiBold);
-
-//        TextView content_Date = (TextView) findViewById(R.id.content_Date);
-//        content_Date.setText(getString(R.string.article_activity_date) + " " + date);
-//        content_Date.setTypeface(montserrat_regular);
 
         TextView content_Description = (TextView) findViewById(R.id.content_Description);
         content_Description.setText(description);
         content_Description.setTypeface(montserrat_regular);
-
-        TextView content_Author = (TextView) findViewById(R.id.content_Author);
-        content_Author.setText(getString(R.string.article_activity_author) + " " + author);
-        content_Author.setTypeface(montserrat_semiBold);
-
-//        TextView content_Source = (TextView) findViewById(R.id.content_source);
-//        content_Source.setText(R.string.article_activity_source);
-//        content_Source.setTypeface(montserrat_semiBold);
 
         ImageView collapsingImage = (ImageView) findViewById(R.id.collapsingImage);
         Glide.with(this)
@@ -124,7 +94,7 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void createToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_article);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); // For not showing the title of the toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -132,21 +102,10 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void floatingButton() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab1 = (FloatingActionButton) findViewById(R.id.fab1);
-        fab2 = (FloatingActionButton) findViewById(R.id.fab2);
-        fab_open = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_open);
-        fab_close = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fab_close);
-        rotate_forward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_forward);
-        rotate_backward = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_backward);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                animateFAB();
-            }
-        });
-        fab1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
@@ -156,23 +115,7 @@ public class ArticleActivity extends AppCompatActivity {
                 startActivity(Intent.createChooser(shareIntent, "Share with"));
             }
         });
-        fab2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-                startActivity(browserIntent);
-            }
-        });
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        this.menu = menu;
-//        getMenuInflater().inflate(R.menu.menu_article, menu);
-//
-//        return true;
-//    }
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -192,35 +135,6 @@ public class ArticleActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-//    private void hideOption(int id) {
-//        MenuItem item = menu.findItem(id);
-//        item.setVisible(false);
-//    }
-//
-//    private void showOption(int id) {
-//        MenuItem item = menu.findItem(id);
-//        item.setVisible(true);
-//    }
-
-    private void animateFAB(){
-
-        if(isFabOpen){
-            fab.startAnimation(rotate_backward);
-            fab1.startAnimation(fab_close);
-            fab2.startAnimation(fab_close);
-            fab1.setClickable(false);
-            fab2.setClickable(false);
-            isFabOpen = false;
-        } else {
-            fab.startAnimation(rotate_forward);
-            fab1.startAnimation(fab_open);
-            fab2.startAnimation(fab_open);
-            fab1.setClickable(true);
-            fab2.setClickable(true);
-            isFabOpen = true;
-        }
     }
 
     @Override

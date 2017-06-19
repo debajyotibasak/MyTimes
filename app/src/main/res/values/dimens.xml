@@ -13,4 +13,6 @@
     <dimen name="iv_card_height">160dp</dimen>
     <dimen name="tv_card_layout_margin">16dp</dimen>
     <dimen name="tv_card_text_size">18sp</dimen>
+    <dimen name="corner_radius_button">5dp</dimen>
+    <dimen name="text_size_button">20sp</dimen>
 </resources>

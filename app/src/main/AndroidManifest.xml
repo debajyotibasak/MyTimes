@@ -32,7 +32,7 @@
         </activity>
         <activity
             android:name=".view.AboutActivity"
-            android:label="About the app"
+            android:label="@string/title_about_the_app"
             android:parentActivityName=".view.MainActivity"
             android:theme="@style/AppTheme"
             tools:targetApi="jelly_bean">
