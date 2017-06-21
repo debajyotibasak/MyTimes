@@ -24,7 +24,7 @@
             android:name=".view.ArticleActivity"
             android:label="@string/title_activity_article"
             android:parentActivityName=".view.MainActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -34,7 +34,7 @@
             android:name=".view.AboutActivity"
             android:label="@string/title_about_the_app"
             android:parentActivityName=".view.MainActivity"
-            android:theme="@style/AppTheme"
+            android:theme="@style/AppTheme.NoActionBar"
             tools:targetApi="jelly_bean">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

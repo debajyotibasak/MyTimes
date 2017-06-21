@@ -84,19 +84,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        if (savedInstanceState != null) {
-//
-//            SOURCE = savedInstanceState.getString("SOURCE");
-//            createToolbar();
-//            toolbar.setTitle(savedInstanceState.getString("TOOLBAR"));
-////            createRecyclerView();
-//            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
-//            createDrawer(savedInstanceState, toolbar, montserrat_regular);
-//            return;
-//        }
-
-
-
         AssetManager assetManager = this.getApplicationContext().getAssets();
         montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
@@ -250,7 +237,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 })
                 .withSavedInstance(savedInstanceState)
                 .build();
-
     }
 
 
