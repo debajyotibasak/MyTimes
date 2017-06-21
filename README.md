@@ -19,12 +19,8 @@
 
 **Screenshots**
 
-![screenshot_1](https://user-images.githubusercontent.com/16916934/27369533-f845fb98-5675-11e7-85d6-26c992704747.png)
-![screenshot_2](https://user-images.githubusercontent.com/16916934/27369534-f848a99c-5675-11e7-9628-78261074e79e.png)
-![screenshot_3](https://user-images.githubusercontent.com/16916934/27369536-f84e80b0-5675-11e7-948a-97383f6c7929.png)
-![screenshot_4](https://user-images.githubusercontent.com/16916934/27369537-f85063bc-5675-11e7-8c5a-4e0d76fb9448.png)
-![screenshot_5](https://user-images.githubusercontent.com/16916934/27369535-f84b935a-5675-11e7-9d87-c75386dd2bb2.png)
-![screenshot_6](https://user-images.githubusercontent.com/16916934/27369538-f8515df8-5675-11e7-8352-d0a0de12beb2.png)
+![rsz_screenshot_1](https://user-images.githubusercontent.com/16916934/27370076-69bba42e-5678-11e7-8c65-54f875361e84.png) ![rsz_screenshot_2](https://user-images.githubusercontent.com/16916934/27370075-69b8d2bc-5678-11e7-8e75-9a22e497d4d4.png) ![rsz_2screenshot_3](https://user-images.githubusercontent.com/16916934/27370074-69b67ae4-5678-11e7-8d15-48fa6c108887.png)
+![rsz_screenshot_4](https://user-images.githubusercontent.com/16916934/27370077-69bf216c-5678-11e7-8dcf-29b75b78803d.png) ![rsz_screenshot_5](https://user-images.githubusercontent.com/16916934/27370078-69c1f112-5678-11e7-9488-285940453de5.png) ![rsz_screenshot_6](https://user-images.githubusercontent.com/16916934/27370079-69cae84e-5678-11e7-8357-c727fbd99e14.png)
 
 **What I have learned from this project:**
 - Fetching JSON data and parsing it.
