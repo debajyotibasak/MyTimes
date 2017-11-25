@@ -3,6 +3,7 @@
     <color name="colorPrimary">#2196f3</color>
     <color name="colorPrimaryDark">#1976d2</color>
     <color name="colorAccent">#ffff00</color>
+    <color name="navigationBarColor">#2196f3</color>
     <color name="colorFab1">#76ff03</color>
     <color name="colorFab2">#ff3d00</color>
     <color name="colorCardView">#FFFFFF</color>

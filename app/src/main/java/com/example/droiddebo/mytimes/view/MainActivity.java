@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void createToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar_main_activity);
         setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         mTitle = (TextView) findViewById(R.id.toolbar_title);
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .withIcon(R.drawable.ic_bbcsports).withTypeface(montserrat_regular);
         PrimaryDrawerItem item8 = new PrimaryDrawerItem().withIdentifier(8).withName("ESPN Cric Info")
                 .withIcon(R.drawable.ic_espncricinfo).withTypeface(montserrat_regular);
-        PrimaryDrawerItem item9= new PrimaryDrawerItem().withIdentifier(9).withName("TalkSport")
+        PrimaryDrawerItem item9 = new PrimaryDrawerItem().withIdentifier(9).withName("TalkSport")
                 .withIcon(R.drawable.ic_talksport).withTypeface(montserrat_regular);
         SectionDrawerItem item10 = new SectionDrawerItem().withIdentifier(10).withName("TECHNOLOGY")
                 .withTypeface(montserrat_regular);
@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .withIcon(R.drawable.ic_theverge).withTypeface(montserrat_regular);
         PrimaryDrawerItem item12 = new PrimaryDrawerItem().withIdentifier(12).withName("TechCrunch")
                 .withIcon(R.drawable.ic_techcrunch).withTypeface(montserrat_regular);
-        PrimaryDrawerItem item13= new PrimaryDrawerItem().withIdentifier(13).withName("TechRadar")
+        PrimaryDrawerItem item13 = new PrimaryDrawerItem().withIdentifier(13).withName("TechRadar")
                 .withIcon(R.drawable.ic_techradar).withTypeface(montserrat_regular);
         SectionDrawerItem item14 = new SectionDrawerItem().withIdentifier(14).withName("MORE INFO")
                 .withTypeface(montserrat_regular);
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         SecondaryDrawerItem item17 = new SecondaryDrawerItem().withIdentifier(17).withName("Powered by newsapi.org")
                 .withIcon(R.drawable.ic_power).withTypeface(montserrat_regular);
         SecondaryDrawerItem item18 = new SecondaryDrawerItem().withIdentifier(18).withName("Contact us")
-                .withIcon(R.drawable.ic_email).withTypeface(montserrat_regular);
+                .withIcon(R.drawable.ic_mail).withTypeface(montserrat_regular);
 
         accountHeader = new AccountHeaderBuilder()
                 .withActivity(this)
@@ -183,56 +183,83 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 .withActivity(this)
                 .withToolbar(toolbar)
                 .withSelectedItem(1)
-                .addDrawerItems(item0,item1,item2,item3,item4,item5,item6,item7,item8,item9,
-                        item10,item11,item12,item13,item14,item15,item16,item17,item18)
+                .addDrawerItems(item0, item1, item2, item3, item4, item5, item6, item7, item8, item9,
+                        item10, item11, item12, item13, item14, item15, item16, item17, item18)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int position, IDrawerItem drawerItem) {
                         int selected = (int) (long) drawerItem.getIdentifier();
                         switch (selected) {
-                            case 1: SOURCE = SOURCE_ARRAY[0]; onLoadingSwipeRefreshLayout();
+                            case 1:
+                                SOURCE = SOURCE_ARRAY[0];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 2: SOURCE = SOURCE_ARRAY[1]; onLoadingSwipeRefreshLayout();
+                            case 2:
+                                SOURCE = SOURCE_ARRAY[1];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 3: SOURCE = SOURCE_ARRAY[2]; onLoadingSwipeRefreshLayout();
+                            case 3:
+                                SOURCE = SOURCE_ARRAY[2];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 5: SOURCE = SOURCE_ARRAY[3]; onLoadingSwipeRefreshLayout();
+                            case 5:
+                                SOURCE = SOURCE_ARRAY[3];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 7: SOURCE = SOURCE_ARRAY[4]; onLoadingSwipeRefreshLayout();
+                            case 7:
+                                SOURCE = SOURCE_ARRAY[4];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 8: SOURCE = SOURCE_ARRAY[5]; onLoadingSwipeRefreshLayout();
+                            case 8:
+                                SOURCE = SOURCE_ARRAY[5];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 9: SOURCE = SOURCE_ARRAY[6]; onLoadingSwipeRefreshLayout();
+                            case 9:
+                                SOURCE = SOURCE_ARRAY[6];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 11: SOURCE = SOURCE_ARRAY[7]; onLoadingSwipeRefreshLayout();
+                            case 11:
+                                SOURCE = SOURCE_ARRAY[7];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 12: SOURCE = SOURCE_ARRAY[8]; onLoadingSwipeRefreshLayout();
+                            case 12:
+                                SOURCE = SOURCE_ARRAY[8];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 13: SOURCE = SOURCE_ARRAY[9]; onLoadingSwipeRefreshLayout();
+                            case 13:
+                                SOURCE = SOURCE_ARRAY[9];
+                                onLoadingSwipeRefreshLayout();
                                 mTitle.setText(((Nameable) drawerItem).getName().getText(MainActivity.this));
                                 break;
-                            case 15: openAboutActivity(); break;
-                            case 16: Intent browserSource = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("https://github.com/debo1994/MyTimes"));
-                                    startActivity(browserSource);
-                                    break;
-                            case 17: Intent browserAPI = new Intent(Intent.ACTION_VIEW,
-                                    Uri.parse("https://newsapi.org/"));
-                                    startActivity(browserAPI);
-                                    break;
-                            case 18: sendEmail(); break;
-                            default: break;
+                            case 15:
+                                openAboutActivity();
+                                break;
+                            case 16:
+                                Intent browserSource = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://github.com/debo1994/MyTimes"));
+                                startActivity(browserSource);
+                                break;
+                            case 17:
+                                Intent browserAPI = new Intent(Intent.ACTION_VIEW,
+                                        Uri.parse("https://newsapi.org/"));
+                                startActivity(browserAPI);
+                                break;
+                            case 18:
+                                sendEmail();
+                                break;
+                            default:
+                                break;
                         }
-                       return false;
+                        return false;
                     }
                 })
                 .withSavedInstance(savedInstanceState)
@@ -374,25 +401,29 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.MyAlertDialogStyle);
-        builder.setTitle(R.string.app_name);
-        builder.setIcon(R.mipmap.ic_launcher_round);
-        builder.setMessage("Do you want to Exit?")
-                .setCancelable(false)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
+        if (result.isDrawerOpen()) {
+            result.closeDrawer();
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this, R.style.MyAlertDialogStyle);
+            builder.setTitle(R.string.app_name);
+            builder.setIcon(R.mipmap.ic_launcher_round);
+            builder.setMessage("Do you want to Exit?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     @Override
@@ -428,7 +459,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     @Override
     protected void onResume() {
         super.onResume();
-        if(listState!=null){
+        if (listState != null) {
             recyclerView.getLayoutManager().onRestoreInstanceState(listState);
         }
     }
