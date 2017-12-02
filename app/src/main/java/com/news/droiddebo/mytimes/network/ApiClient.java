@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.network;
+package com.news.droiddebo.mytimes.network;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

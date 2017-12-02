@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.view;
+package com.news.droiddebo.mytimes.view;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,16 +21,16 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.droiddebo.mytimes.MyTimesApplication;
-import com.example.droiddebo.mytimes.R;
-import com.example.droiddebo.mytimes.adapter.DataAdapter;
-import com.example.droiddebo.mytimes.model.Article;
-import com.example.droiddebo.mytimes.model.ArticleResponse;
-import com.example.droiddebo.mytimes.network.ApiClient;
-import com.example.droiddebo.mytimes.network.ApiInterface;
-import com.example.droiddebo.mytimes.network.interceptors.OfflineResponseCacheInterceptor;
-import com.example.droiddebo.mytimes.network.interceptors.ResponseCacheInterceptor;
-import com.example.droiddebo.mytimes.util.UtilityMethods;
+import com.news.droiddebo.mytimes.MyTimesApplication;
+import com.news.droiddebo.mytimes.R;
+import com.news.droiddebo.mytimes.adapter.DataAdapter;
+import com.news.droiddebo.mytimes.model.Article;
+import com.news.droiddebo.mytimes.model.ArticleResponse;
+import com.news.droiddebo.mytimes.network.ApiClient;
+import com.news.droiddebo.mytimes.network.ApiInterface;
+import com.news.droiddebo.mytimes.network.interceptors.OfflineResponseCacheInterceptor;
+import com.news.droiddebo.mytimes.network.interceptors.ResponseCacheInterceptor;
+import com.news.droiddebo.mytimes.util.UtilityMethods;
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
@@ -102,23 +102,23 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     private void createToolbar() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar_main_activity);
+        toolbar = findViewById(R.id.toolbar_main_activity);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        mTitle = (TextView) findViewById(R.id.toolbar_title);
+        mTitle = findViewById(R.id.toolbar_title);
         mTitle.setTypeface(montserrat_regular);
     }
 
     private void createRecyclerView() {
-        recyclerView = (RecyclerView) findViewById(R.id.card_recycler_view);
+        recyclerView = findViewById(R.id.card_recycler_view);
 
         /*
         ** SwipeRefreshLayout is used for reloading the JSON by pulling the refresh button from top
         ** and refreshing the Layout with new JSON responses.
         **/
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
@@ -381,23 +381,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     }
 
     public void sendEmail() {
-        Log.i("Send email", "");
-        String[] TO = {"d.basak.db@gmail.com"};
-        Intent emailIntent = new Intent(Intent.ACTION_SEND);
-
-        emailIntent.setData(Uri.parse("mailto:"));
-        emailIntent.setType("text/plain");
-        emailIntent.putExtra(Intent.EXTRA_EMAIL, TO);
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your subject");
-        emailIntent.putExtra(Intent.EXTRA_TEXT, "Email message goes here");
-
-        try {
-            startActivity(Intent.createChooser(emailIntent, "Send mail..."));
-            finish();
-            Log.i("Finished sending email", "");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(MainActivity.this, "There is no email client installed.", Toast.LENGTH_SHORT).show();
-        }
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto: d.basak.db@gmail.com"));
+        startActivity(Intent.createChooser(emailIntent, "Send feedback"));
     }
 
     public void onBackPressed() {
@@ -438,7 +424,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         listState = recyclerView.getLayoutManager().onSaveInstanceState();
         bundle.putParcelable(LIST_STATE_KEY, listState);
         bundle.putString("SOURCE", SOURCE);
-//        bundle.putString("TOOLBAR", toolbar.getTitle().toString());
         bundle.putString(SAVE_TEXT, mTitle.getText().toString());
     }
 

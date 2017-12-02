@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.adapter;
+package com.news.droiddebo.mytimes.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,9 +16,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.droiddebo.mytimes.R;
-import com.example.droiddebo.mytimes.model.Article;
-import com.example.droiddebo.mytimes.view.ArticleActivity;
+import com.news.droiddebo.mytimes.R;
+import com.news.droiddebo.mytimes.model.Article;
+import com.news.droiddebo.mytimes.view.ArticleActivity;
 
 import java.util.List;
 
@@ -123,10 +123,10 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
         public ViewHolder(View view) {
             super(view);
-            tv_card_main_title = (TextView) view.findViewById(R.id.tv_card_main_title);
+            tv_card_main_title = view.findViewById(R.id.tv_card_main_title);
             tv_card_main_title.setTypeface(montserrat_regular);
-            img_card_main = (ImageView) view.findViewById(R.id.img_card_main);
-            cardView = (CardView) view.findViewById(R.id.card_row);
+            img_card_main = view.findViewById(R.id.img_card_main);
+            cardView = view.findViewById(R.id.card_row);
         }
     }
 }

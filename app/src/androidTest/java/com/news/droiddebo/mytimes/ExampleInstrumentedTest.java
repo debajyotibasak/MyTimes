@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes;
+package com.news.droiddebo.mytimes;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

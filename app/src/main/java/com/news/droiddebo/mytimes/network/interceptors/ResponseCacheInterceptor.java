@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.network.interceptors;
+package com.news.droiddebo.mytimes.network.interceptors;
 
 import android.support.annotation.NonNull;
 

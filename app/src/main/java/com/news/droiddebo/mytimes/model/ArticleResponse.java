@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.model;
+package com.news.droiddebo.mytimes.model;
 
 
 import java.util.List;

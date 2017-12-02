@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionBar">false</item>
-        <item name="android:navigationBarColor">@color/colorPrimary</item>
         <item name="windowNoTitle">true</item>
     </style>
 
@@ -54,7 +53,7 @@
         <!-- Used for the title and text -->
         <item name="android:textColorPrimary">#FFFFFF</item>
         <!-- Used for the background -->
-        <item name="android:background">#1565c0</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
 </resources>

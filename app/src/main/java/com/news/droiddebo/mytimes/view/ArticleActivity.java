@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes.view;
+package com.news.droiddebo.mytimes.view;
 
 import android.content.Intent;
 import android.content.res.AssetManager;
@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.droiddebo.mytimes.R;
+import com.news.droiddebo.mytimes.R;
 
 /*
 ** Article Activity is loaded when the user presses on one of the card views of the Recycler View
@@ -25,9 +25,10 @@ import com.example.droiddebo.mytimes.R;
 
 public class ArticleActivity extends AppCompatActivity {
 
-    private Menu menu;
     private String URL;
     private FloatingActionButton fab;
+    private Typeface montserrat_regular;
+    private Typeface montserrat_semiBold;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,9 +45,7 @@ public class ArticleActivity extends AppCompatActivity {
         **/
         floatingButton();
 
-        AssetManager assetManager = this.getApplicationContext().getAssets();
-        Typeface montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
-        Typeface montserrat_semiBold = Typeface.createFromAsset(assetManager, "fonts/Montserrat-SemiBold.ttf");
+        assetManager();
 
         /*
         ** We get the response data from the Main Activity as Intents
@@ -56,16 +55,28 @@ public class ArticleActivity extends AppCompatActivity {
         buttonLinktoFullArticle(montserrat_regular);
     }
 
+    private void assetManager() {
+        AssetManager assetManager = this.getApplicationContext().getAssets();
+        montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
+        montserrat_semiBold = Typeface.createFromAsset(assetManager, "fonts/Montserrat-SemiBold.ttf");
+    }
+
     private void buttonLinktoFullArticle(Typeface montserrat_regular) {
-        Button linkToFullArticle = (Button) findViewById(R.id.article_button);
+        Button linkToFullArticle = findViewById(R.id.article_button);
         linkToFullArticle.setTypeface(montserrat_regular);
         linkToFullArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-                startActivity(browserIntent);
+                openWebViewActivity();
             }
         });
+    }
+
+    private void openWebViewActivity() {
+        Intent browserIntent = new Intent(ArticleActivity.this, WebViewActivity.class);
+        browserIntent.putExtra("URL", URL);
+        startActivity(browserIntent);
+        this.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 
     private void receiveFromDataAdapter(Typeface montserrat_regular, Typeface montserrat_semiBold) {
@@ -76,15 +87,15 @@ public class ArticleActivity extends AppCompatActivity {
         String imgURL = getIntent().getStringExtra("key_imgURL");
         URL = getIntent().getStringExtra("key_URL");
 
-        TextView content_Headline = (TextView) findViewById(R.id.content_Headline);
+        TextView content_Headline = findViewById(R.id.content_Headline);
         content_Headline.setText(headLine);
         content_Headline.setTypeface(montserrat_semiBold);
 
-        TextView content_Description = (TextView) findViewById(R.id.content_Description);
+        TextView content_Description = findViewById(R.id.content_Description);
         content_Description.setText(description);
         content_Description.setTypeface(montserrat_regular);
 
-        ImageView collapsingImage = (ImageView) findViewById(R.id.collapsingImage);
+        ImageView collapsingImage = findViewById(R.id.collapsingImage);
         Glide.with(this)
                 .load(imgURL)
                 .centerCrop()
@@ -94,14 +105,14 @@ public class ArticleActivity extends AppCompatActivity {
     }
 
     private void createToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_article);
+        Toolbar toolbar = findViewById(R.id.toolbar_article);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); // For not showing the title of the toolbar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void floatingButton() {
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,24 +120,14 @@ public class ArticleActivity extends AppCompatActivity {
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this news! Send from MyTimes App\n" +
-                        Uri.parse(URL));
-
+                shareIntent.putExtra(Intent.EXTRA_TEXT, "Check out this news! Send from MyTimes App\n" + Uri.parse(URL));
                 startActivity(Intent.createChooser(shareIntent, "Share with"));
             }
         });
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
-            /*
-            * Load the URL to the news when pressing the URL button
-            * */
-//            case R.id.action_url:
-//                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(URL));
-//                startActivity(browserIntent);
-
             /*
             * Override the Up/Home Button
             * */

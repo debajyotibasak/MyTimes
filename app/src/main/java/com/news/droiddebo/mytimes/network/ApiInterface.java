@@ -1,6 +1,6 @@
-package com.example.droiddebo.mytimes.network;
+package com.news.droiddebo.mytimes.network;
 
-import com.example.droiddebo.mytimes.model.ArticleResponse;
+import com.news.droiddebo.mytimes.model.ArticleResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes;
+package com.news.droiddebo.mytimes;
 
 import android.app.Application;
 

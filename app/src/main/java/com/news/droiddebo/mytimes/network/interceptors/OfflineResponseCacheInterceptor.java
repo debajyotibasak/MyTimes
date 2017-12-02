@@ -1,8 +1,8 @@
-package com.example.droiddebo.mytimes.network.interceptors;
+package com.news.droiddebo.mytimes.network.interceptors;
 
 import android.support.annotation.NonNull;
 
-import com.example.droiddebo.mytimes.util.UtilityMethods;
+import com.news.droiddebo.mytimes.util.UtilityMethods;
 
 import java.io.IOException;
 

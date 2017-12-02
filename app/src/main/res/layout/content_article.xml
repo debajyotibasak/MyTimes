@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.droiddebo.mytimes.view.ArticleActivity"
+    tools:context="com.news.droiddebo.mytimes.view.ArticleActivity"
     tools:showIn="@layout/activity_article">
 
     <LinearLayout

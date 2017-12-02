@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.example.droiddebo.mytimes.view.AboutActivity"
+    tools:context="com.news.droiddebo.mytimes.view.AboutActivity"
     tools:showIn="@layout/activity_about">
 
     <ScrollView

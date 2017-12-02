@@ -1,4 +1,4 @@
-package com.example.droiddebo.mytimes;
+package com.news.droiddebo.mytimes;
 
 import org.junit.Test;
 

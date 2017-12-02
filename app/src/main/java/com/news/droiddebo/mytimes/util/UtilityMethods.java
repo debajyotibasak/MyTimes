@@ -1,9 +1,9 @@
-package com.example.droiddebo.mytimes.util;
+package com.news.droiddebo.mytimes.util;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 
-import com.example.droiddebo.mytimes.MyTimesApplication;
+import com.news.droiddebo.mytimes.MyTimesApplication;
 
 public class UtilityMethods {
     /**
