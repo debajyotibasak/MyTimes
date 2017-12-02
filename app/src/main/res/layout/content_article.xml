@@ -57,7 +57,7 @@
             android:layout_marginStart="@dimen/text_margin"
             android:layout_marginRight="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
-            android:text="Read the full article"
+            android:text="@string/read_the_full_article"
             android:textAllCaps="false"
             android:textSize="@dimen/text_size_button"
             android:textColor="@color/button_text_color"

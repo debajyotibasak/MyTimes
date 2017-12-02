@@ -7,7 +7,6 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -26,7 +25,7 @@ public class WebViewActivity extends AppCompatActivity {
     private WebView webView;
     private ProgressBar progressBar;
     private String url;
-    private String SAVE_TEXT = "save_text_webview";
+    private String SAVE_TEXT = "save_text_webView";
     private TextView mTitle;
     private Typeface montserrat_regular;
     private float m_downX;
@@ -53,14 +52,14 @@ public class WebViewActivity extends AppCompatActivity {
             webView.loadUrl(url);
             initWebView();
         }
-
-
     }
 
     private void createToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_web_view);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false); // For not showing the title of the toolbar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mTitle = findViewById(R.id.toolbar_title_web_view);
         mTitle.setTypeface(montserrat_regular);
@@ -127,6 +126,8 @@ public class WebViewActivity extends AppCompatActivity {
 
                 return false;
             }
+
+
         });
 
     }
@@ -180,4 +181,5 @@ public class WebViewActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
+
 }

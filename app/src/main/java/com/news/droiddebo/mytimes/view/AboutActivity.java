@@ -10,11 +10,9 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.news.droiddebo.mytimes.R;
 
@@ -146,7 +144,9 @@ public class AboutActivity extends AppCompatActivity {
     private void createToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar_layout_about);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         /*

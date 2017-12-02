@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private String[] SOURCE_ARRAY = {"bbc-news", "the-hindu", "the-times-of-india", "mtv-news", "bbc-sport",
             "espn-cric-info", "talksport", "the-verge", "techcrunch", "techradar"};
     private String SOURCE;
-    private String SORT_BY = "top";
     private final static String API_KEY = "7ab0b19b6b2142bd8dd2e0ab78258be9";
 
     private List<Article> articles = new ArrayList<>();
@@ -296,11 +295,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         /*
         ** Calls the Retrofit client (ApiClient) and passes the OkHTTP client
-        ** (httpCLient declared above) and creates the call with the help of ApiInterface.
+        ** (httpClient declared above) and creates the call with the help of ApiInterface.
         **/
         ApiInterface request = ApiClient.getClient(httpClient).create(ApiInterface.class);
 
 
+        String SORT_BY = "top";
         Call<ArticleResponse> call = request.getCall(SOURCE, SORT_BY, API_KEY);
         call.enqueue(new Callback<ArticleResponse>() {
             /*

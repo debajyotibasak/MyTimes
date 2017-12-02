@@ -59,13 +59,13 @@
                     <TextView
                         android:id="@+id/tv_info1"
                         style="@style/card_layout_library_name"
-                        android:text="Material Drawer" />
+                        android:text="@string/material_drawer" />
 
                     <TextView
                         android:id="@+id/tv_author1"
                         style="@style/card_layout_library_author"
                         android:layout_below="@id/tv_info1"
-                        android:text="Mike Penz" />
+                        android:text="@string/mike_penz" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -83,13 +83,13 @@
                     <TextView
                         android:id="@+id/tv_info2"
                         style="@style/card_layout_library_name"
-                        android:text="Retrofit" />
+                        android:text="@string/retrofit" />
 
                     <TextView
                         android:id="@+id/tv_author2"
                         style="@style/card_layout_library_author"
                         android:layout_below="@id/tv_info2"
-                        android:text="Square" />
+                        android:text="@string/square" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -107,13 +107,13 @@
                     <TextView
                         android:id="@+id/tv_info3"
                         style="@style/card_layout_library_name"
-                        android:text="OkHttp" />
+                        android:text="@string/okhttp" />
 
                     <TextView
                         android:id="@+id/tv_author3"
                         style="@style/card_layout_library_author"
                         android:layout_below="@id/tv_info3"
-                        android:text="Square" />
+                        android:text="@string/square" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 
@@ -132,13 +132,13 @@
                     <TextView
                         android:id="@+id/tv_info4"
                         style="@style/card_layout_library_name"
-                        android:text="Glide" />
+                        android:text="@string/glide" />
 
                     <TextView
                         android:id="@+id/tv_author4"
                         style="@style/card_layout_library_author"
                         android:layout_below="@id/tv_info4"
-                        android:text="Bumptech" />
+                        android:text="@string/bumptech" />
                 </RelativeLayout>
             </android.support.v7.widget.CardView>
 

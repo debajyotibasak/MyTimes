@@ -12,7 +12,8 @@
         android:layout_gravity="center"
         android:layout_margin="16dp"
         android:scaleType="fitCenter"
-        android:src="@raw/ic_launcher" />
+        android:src="@raw/ic_launcher"
+        android:contentDescription="@string/mytimes_logo" />
 
     <TextView
         android:id="@+id/about_header_app_name"
@@ -31,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="5dp"
-        android:text="A beautiful News Reader powered by www.newsapi.org"
+        android:text="@string/newsapi_tag"
         android:textColor="@android:color/white"
         android:textSize="12sp"
         android:textStyle="normal" />
