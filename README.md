@@ -36,7 +36,7 @@
 
 **It a fully Open Source project so go ahead and fork it.**
 
-Note: PLease use your own API KEY. Its very easy to set up. Just go to https://newsapi.org/register.
+Note: Please use your own API KEY. Its very easy to set up. Just go to https://newsapi.org/register.
 
 **_Contributions are also welcome._**
 
