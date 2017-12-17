@@ -26,6 +26,9 @@ import com.news.droiddebo.mytimes.R;
 import com.news.droiddebo.mytimes.adapter.DataAdapter;
 import com.news.droiddebo.mytimes.model.Article;
 import com.news.droiddebo.mytimes.model.ArticleResponse;
+import com.news.droiddebo.mytimes.model.ArticleStructure;
+import com.news.droiddebo.mytimes.model.Constants;
+import com.news.droiddebo.mytimes.model.NewsResponse;
 import com.news.droiddebo.mytimes.network.ApiClient;
 import com.news.droiddebo.mytimes.network.ApiInterface;
 import com.news.droiddebo.mytimes.network.interceptors.OfflineResponseCacheInterceptor;
@@ -56,18 +59,12 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-    private static final String LIST_STATE_KEY = "recycler_list_state";
-    private String SAVE_TEXT = "save_text";
-    /*
-     ** These 3 strings are very important as they are required for querying the json before parsing.
-     **/
     private String[] SOURCE_ARRAY = {"bbc-news", "the-hindu", "the-times-of-india", "mtv-news", "bbc-sport",
             "espn-cric-info", "talksport", "the-verge", "techcrunch", "techradar"};
     private String SOURCE;
-    private final static String API_KEY = "7ab0b19b6b2142bd8dd2e0ab78258be9";
 
-    private List<Article> articles = new ArrayList<>();
+    /*private List<Article> articles = new ArrayList<>();*/
+    private ArrayList<ArticleStructure> articleStructure = new ArrayList<>();
     private DataAdapter adapter;
     private SwipeRefreshLayout swipeRefreshLayout;
     private Drawer result;
@@ -89,15 +86,11 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         createToolbar();
         createRecyclerView();
 
-        /*
-        ** show loader and fetch messages.
-        **/
         SOURCE = SOURCE_ARRAY[0];
         mTitle.setText(R.string.toolbar_default_text);
         onLoadingSwipeRefreshLayout();
 
         createDrawer(savedInstanceState, toolbar, montserrat_regular);
-
     }
 
     private void createToolbar() {
@@ -112,23 +105,10 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     private void createRecyclerView() {
         recyclerView = findViewById(R.id.card_recycler_view);
-
-        /*
-        ** SwipeRefreshLayout is used for reloading the JSON by pulling the refresh button from top
-        ** and refreshing the Layout with new JSON responses.
-        **/
         swipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-
-        /*
-        ** Adapter is the place where the articles are loaded into.
-        **/
-        adapter = new DataAdapter(this, articles);
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(adapter);
-
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
     }
 
     private void createDrawer(Bundle savedInstanceState, final Toolbar toolbar, Typeface montserrat_regular) {
@@ -269,67 +249,48 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     private void loadJSON() {
         swipeRefreshLayout.setRefreshing(true);
 
-        /*
-        ** Used to show Log files of the HTTP GET REQUESTS and what is fetched
-        ** and the status codes and the body of the requests etc.
-        **/
         HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
         logging.setLevel(Level.BODY);
 
-        /*
-        ** OkHttp is added as a default in Retrofit so it is added here for adding the
-        ** different interceptors which handles the offline caching etc.
-        **/
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-
-        // add your other interceptors …
         httpClient.addNetworkInterceptor(new ResponseCacheInterceptor());
         httpClient.addInterceptor(new OfflineResponseCacheInterceptor());
         httpClient.cache(new Cache(new File(MyTimesApplication.getMyTimesApplicationInstance()
                 .getCacheDir(), "ResponsesCache"), 10 * 1024 * 1024));
         httpClient.readTimeout(60, TimeUnit.SECONDS);
         httpClient.connectTimeout(60, TimeUnit.SECONDS);
-
-        // add logging as last interceptor
         httpClient.addInterceptor(logging);
 
-        /*
-        ** Calls the Retrofit client (ApiClient) and passes the OkHTTP client
-        ** (httpClient declared above) and creates the call with the help of ApiInterface.
-        **/
         ApiInterface request = ApiClient.getClient(httpClient).create(ApiInterface.class);
 
+        Call<NewsResponse> call = request.getHeadlines(SOURCE, Constants.API_KEY);
+        call.enqueue(new Callback<NewsResponse>() {
 
-        String SORT_BY = "top";
-        Call<ArticleResponse> call = request.getCall(SOURCE, SORT_BY, API_KEY);
-        call.enqueue(new Callback<ArticleResponse>() {
-            /*
-            ** The response is build with the Call and the Response while using the Article Response
-             * POJO class to construct the responses .
-            **/
             @Override
-            public void onResponse(@NonNull Call<ArticleResponse> call, @NonNull Response<ArticleResponse> response) {
+            public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
 
-                if (response.isSuccessful()) {
-                    articles.clear();
-                    articles.addAll(response.body().getArticles());
-                    adapter.notifyDataSetChanged();
+                if (response.isSuccessful() && response.body().getArticles() != null) {
+
+                    if (!articleStructure.isEmpty()) {
+                        articleStructure.clear();
+                    }
+
+                    articleStructure = response.body().getArticles();
+
+                    adapter = new DataAdapter(MainActivity.this, articleStructure);
+                    recyclerView.setAdapter(adapter);
                     swipeRefreshLayout.setRefreshing(false);
                 }
             }
 
 
             @Override
-            public void onFailure(@NonNull Call<ArticleResponse> call, @NonNull Throwable t) {
-                Log.e(TAG, t.toString());
+            public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable t) {
                 swipeRefreshLayout.setRefreshing(false);
             }
         });
     }
 
-    /*
-    ** Loads the JSON when Refreshing the swipeRefreshLayout
-    **/
     @Override
     public void onRefresh() {
         loadJSON();
@@ -341,9 +302,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     **/
     private void onLoadingSwipeRefreshLayout() {
         if (!UtilityMethods.isNetworkAvailable()) {
-            Toast.makeText(MainActivity.this,
-                    "Could not load latest News. Please turn on the Internet.",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText(MainActivity.this, "Could not load latest News. Please turn on the Internet.", Toast.LENGTH_SHORT).show();
         }
         swipeRefreshLayout.post(
                 new Runnable() {
@@ -364,23 +323,32 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            /*
-            * Load the about menu
-            * */
             case R.id.action_menu:
                 openAboutActivity();
-
+                break;
+            case R.id.action_search:
+                openSearchActivity();
+                break;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public void openAboutActivity() {
+
+    private void openAboutActivity() {
         Intent aboutIntent = new Intent(this, AboutActivity.class);
         startActivity(aboutIntent);
         this.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 
-    public void sendEmail() {
+    private void openSearchActivity() {
+        Intent searchIntent = new Intent(this, SearchActivity.class);
+        startActivity(searchIntent);
+        this.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
+    }
+
+    private void sendEmail() {
         Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
         emailIntent.setData(Uri.parse("mailto: d.basak.db@gmail.com"));
         startActivity(Intent.createChooser(emailIntent, "Send feedback"));
@@ -414,7 +382,6 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
-
         //add the values which need to be saved from the drawer to the bundle
         bundle = result.saveInstanceState(bundle);
         //add the values which need to be saved from the accountHeader to the bundle
@@ -422,21 +389,19 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
         super.onSaveInstanceState(bundle);
         listState = recyclerView.getLayoutManager().onSaveInstanceState();
-        bundle.putParcelable(LIST_STATE_KEY, listState);
-        bundle.putString("SOURCE", SOURCE);
-        bundle.putString(SAVE_TEXT, mTitle.getText().toString());
+        bundle.putParcelable(Constants.RECYCLER_STATE_KEY, listState);
+        bundle.putString(Constants.SOURCE, SOURCE);
+        bundle.putString(Constants.TITLE_STATE_KEY, mTitle.getText().toString());
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if (savedInstanceState != null) {
-
-            SOURCE = savedInstanceState.getString("SOURCE");
+            SOURCE = savedInstanceState.getString(Constants.SOURCE);
             createToolbar();
-//            toolbar.setTitle(savedInstanceState.getString("TOOLBAR"));
-            mTitle.setText(savedInstanceState.getString(SAVE_TEXT));
-            listState = savedInstanceState.getParcelable(LIST_STATE_KEY);
+            mTitle.setText(savedInstanceState.getString(Constants.TITLE_STATE_KEY));
+            listState = savedInstanceState.getParcelable(Constants.RECYCLER_STATE_KEY);
             createDrawer(savedInstanceState, toolbar, montserrat_regular);
         }
     }

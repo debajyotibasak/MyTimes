@@ -16,11 +16,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.news.droiddebo.mytimes.R;
+import com.news.droiddebo.mytimes.model.Constants;
 
 /*
-** Article Activity is loaded when the user presses on one of the card views of the Recycler View
- * which is present in the Main Activity.
-**/
+* Article Activity is loaded when the user presses on one of the card views of the Recycler View
+* which is present in the Main Activity.
+* */
 
 public class ArticleActivity extends AppCompatActivity {
 
@@ -33,23 +34,10 @@ public class ArticleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
 
-        /*
-        ** Custom Toolbar ( App Bar )
-        **/
         createToolbar();
-
-        /*
-        ** Action of the Floating Action Button ( FAB )
-        **/
         floatingButton();
-
         assetManager();
-
-        /*
-        ** We get the response data from the Main Activity as Intents
-        **/
         receiveFromDataAdapter(montserrat_regular, montserrat_semiBold);
-
         buttonLinktoFullArticle(montserrat_regular);
     }
 
@@ -72,18 +60,17 @@ public class ArticleActivity extends AppCompatActivity {
 
     private void openWebViewActivity() {
         Intent browserIntent = new Intent(ArticleActivity.this, WebViewActivity.class);
-        browserIntent.putExtra("URL", URL);
+        browserIntent.putExtra(Constants.INTENT_URL, URL);
         startActivity(browserIntent);
         this.overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
     }
 
     private void receiveFromDataAdapter(Typeface montserrat_regular, Typeface montserrat_semiBold) {
-        String headLine = getIntent().getStringExtra("key_HeadLine");
-        String author = getIntent().getStringExtra("key_author");
-        String description = getIntent().getStringExtra("key_description");
-        String date = getIntent().getStringExtra("key_date");
-        String imgURL = getIntent().getStringExtra("key_imgURL");
-        URL = getIntent().getStringExtra("key_URL");
+        String headLine = getIntent().getStringExtra(Constants.INTENT_HEADLINE);
+        String description = getIntent().getStringExtra(Constants.INTENT_DESCRIPTION);
+        String date = getIntent().getStringExtra(Constants.INTENT_DATE);
+        String imgURL = getIntent().getStringExtra(Constants.INTENT_IMG_URL);
+        URL = getIntent().getStringExtra(Constants.INTENT_ARTICLE_URL);
 
         TextView content_Headline = findViewById(R.id.content_Headline);
         content_Headline.setText(headLine);

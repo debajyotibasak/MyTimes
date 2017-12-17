@@ -18,25 +18,24 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.news.droiddebo.mytimes.R;
 import com.news.droiddebo.mytimes.model.Article;
+import com.news.droiddebo.mytimes.model.ArticleStructure;
+import com.news.droiddebo.mytimes.model.Constants;
 import com.news.droiddebo.mytimes.view.ArticleActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
 ** This Class is Used to fetch the data from the POJO Article and bind them to the views.
 **/
-public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
+public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
 
-    /*
-    ** Used for showing LOG messages for Debugging.
-    **/
-    //private static String TAG = "DATA";
 
-    private List<Article> articles;
+    private ArrayList<ArticleStructure> articles;
     private Context mContext;
     private int lastPosition = -1;
 
-    public DataAdapter(Context mContext, List<Article> articles) {
+    public DataAdapter(Context mContext, ArrayList<ArticleStructure> articles) {
         this.mContext = mContext;
         this.articles = articles;
     }
@@ -52,52 +51,19 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
-        final Article article = articles.get(position);
 
-        holder.tv_card_main_title.setText(article.getTitle().replace("- Times of India", ""));
+        holder.tv_card_main_title.setText(articles.get(position).getTitle());
 
         Glide.with(mContext)
-                .load(article.getUrlToImage())
+                .load(articles.get(position).getUrlToImage())
                 .centerCrop()
                 .error(R.drawable.ic_placeholder)
                 .crossFade()
                 .into(holder.img_card_main);
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String headLine = article.getTitle();
-                String author = article.getAuthor();
-                String description = article.getDescription();
-                String date = article.getPublishedAt();
-                String imgURL = article.getUrlToImage();
-                String URL = article.getUrl();
-
-                /*
-                ** Using Intents to send data from MainActivity to ArticleActivity
-                **/
-                Intent intent = new Intent(mContext, ArticleActivity.class);
-
-                intent.putExtra("key_HeadLine", headLine);
-                intent.putExtra("key_author", author);
-                intent.putExtra("key_description", description);
-                intent.putExtra("key_date", date);
-                intent.putExtra("key_imgURL", imgURL);
-                intent.putExtra("key_URL", URL);
-
-                mContext.startActivity(intent);
-
-                ((Activity)mContext).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
-            }
-        });
-
-        if(position >lastPosition) {
-            /*
-            ** Used for adding animations to the CardView using animation file up_from_bottom.xml.
-            **/
-            Animation animation = AnimationUtils.loadAnimation(mContext,
-                    R.anim.up_from_bottom);
-            holder.itemView.startAnimation(animation);
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.item_animation_fall_down);
+            holder.cardView.startAnimation(animation);
             lastPosition = position;
         }
     }
@@ -113,7 +79,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
     /*
     ** ViewHolder class which holds the different views in the recyclerView .
     **/
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tv_card_main_title;
         private ImageView img_card_main;
         private CardView cardView;
@@ -127,6 +93,28 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder>{
             tv_card_main_title.setTypeface(montserrat_regular);
             img_card_main = view.findViewById(R.id.img_card_main);
             cardView = view.findViewById(R.id.card_row);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            String headLine = articles.get(getAdapterPosition()).getTitle();
+            String description = articles.get(getAdapterPosition()).getDescription();
+            String date = articles.get(getAdapterPosition()).getPublishedAt();
+            String imgURL = articles.get(getAdapterPosition()).getUrlToImage();
+            String URL = articles.get(getAdapterPosition()).getUrl();
+
+            Intent intent = new Intent(mContext, ArticleActivity.class);
+
+            intent.putExtra(Constants.INTENT_HEADLINE, headLine);
+            intent.putExtra(Constants.INTENT_DESCRIPTION, description);
+            intent.putExtra(Constants.INTENT_DATE, date);
+            intent.putExtra(Constants.INTENT_IMG_URL, imgURL);
+            intent.putExtra(Constants.INTENT_ARTICLE_URL, URL);
+
+            mContext.startActivity(intent);
+
+            ((Activity) mContext).overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
         }
     }
 }

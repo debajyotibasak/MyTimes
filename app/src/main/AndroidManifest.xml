@@ -9,9 +9,9 @@
     <application
         android:name=".MyTimesApplication"
         android:allowBackup="true"
+        android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:fullBackupContent="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -48,6 +48,14 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.news.droiddebo.mytimes.view.ArticleActivity" />
+        </activity>
+        <activity android:name=".view.SearchActivity"
+            android:parentActivityName=".view.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            tools:targetApi="jelly_bean">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.news.droiddebo.mytimes.view.MainActivity" />
         </activity>
     </application>
 

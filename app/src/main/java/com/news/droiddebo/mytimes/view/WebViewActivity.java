@@ -19,13 +19,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.news.droiddebo.mytimes.R;
+import com.news.droiddebo.mytimes.model.Constants;
 
 public class WebViewActivity extends AppCompatActivity {
 
     private WebView webView;
     private ProgressBar progressBar;
     private String url;
-    private String SAVE_TEXT = "save_text_webView";
     private TextView mTitle;
     private Typeface montserrat_regular;
     private float m_downX;
@@ -38,7 +38,7 @@ public class WebViewActivity extends AppCompatActivity {
         AssetManager assetManager = this.getApplicationContext().getAssets();
         montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
-        url = getIntent().getStringExtra("URL");
+        url = getIntent().getStringExtra(Constants.INTENT_URL);
 
         /*
         ** Custom Toolbar ( App Bar )
@@ -156,7 +156,7 @@ public class WebViewActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
-        bundle.putString(SAVE_TEXT, url);
+        bundle.putString(Constants.TITLE_WEBVIEW_KEY, url);
         webView.saveState(bundle);
     }
 
@@ -166,7 +166,7 @@ public class WebViewActivity extends AppCompatActivity {
         if (savedInstanceState != null) {
             createToolbar();
             webView.restoreState(savedInstanceState);
-            mTitle.setText(savedInstanceState.getString(SAVE_TEXT));
+            mTitle.setText(savedInstanceState.getString(Constants.TITLE_WEBVIEW_KEY));
         }
     }
 

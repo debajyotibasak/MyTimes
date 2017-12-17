@@ -142,12 +142,14 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void createToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar_layout_about);
+        final Toolbar toolbar = findViewById(R.id.toolbar_layout_about);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        final TextView toolbarTitle = findViewById(R.id.toolbar_title_about);
 
         /*
         ** Customising animations of the AppBar Layout
@@ -163,8 +165,12 @@ public class AboutActivity extends AppCompatActivity {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
+                    toolbarTitle.setVisibility(View.VISIBLE);
+                    toolbarTitle.setTypeface(montserrat_regular);
+                    toolbarTitle.setText("About");
                     isShow = true;
                 } else if (isShow) {
+                    toolbarTitle.setVisibility(View.GONE);
                     isShow = false;
                 }
             }
