@@ -9,7 +9,7 @@ public class Constants {
     public static final String BASE_URL = "https://newsapi.org/v2/";
 
     //API Key
-    public static final String API_KEY = "YOUR_API_KEY_HERE"; //-------> Required field
+    public static final String API_KEY = "7ab0b19b6b2142bd8dd2e0ab78258be9";
 
     //Used to save the instance of the recyclerView
     public static final String RECYCLER_STATE_KEY = "recycler_list_state";
@@ -32,4 +32,5 @@ public class Constants {
     public static final String INTENT_IMG_URL = "key_imgURL";
     public static final String INTENT_ARTICLE_URL = "key_URL";
 
+    public static final String TRANSITION = "transition";
 }
