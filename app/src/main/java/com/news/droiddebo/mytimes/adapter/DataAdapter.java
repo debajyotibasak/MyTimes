@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.news.droiddebo.mytimes.R;
 import com.news.droiddebo.mytimes.model.Article;
 import com.news.droiddebo.mytimes.model.ArticleStructure;
@@ -52,13 +53,20 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(DataAdapter.ViewHolder holder, int position) {
 
-        holder.tv_card_main_title.setText(articles.get(position).getTitle());
+        String title = articles.get(position).getTitle();
+        if (title.endsWith("- Times of India")) {
+            title = title.replace("- Times of India", "");
+        } else if(title.endsWith(" - Firstpost")) {
+            title = title.replace(" - Firstpost", "");
+        }
+
+        holder.tv_card_main_title.setText(title);
 
         Glide.with(mContext)
                 .load(articles.get(position).getUrlToImage())
+                .thumbnail(0.1f)
                 .centerCrop()
                 .error(R.drawable.ic_placeholder)
-                .crossFade()
                 .into(holder.img_card_main);
 
         if (position > lastPosition) {
@@ -99,6 +107,11 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         @Override
         public void onClick(View v) {
             String headLine = articles.get(getAdapterPosition()).getTitle();
+            if (headLine.endsWith(" - Times of India")) {
+                headLine = headLine.replace(" - Times of India", "");
+            } else if(headLine.endsWith(" - Firstpost")) {
+                headLine = headLine.replace(" - Firstpost", "");
+            }
             String description = articles.get(getAdapterPosition()).getDescription();
             String date = articles.get(getAdapterPosition()).getPublishedAt();
             String imgURL = articles.get(getAdapterPosition()).getUrlToImage();

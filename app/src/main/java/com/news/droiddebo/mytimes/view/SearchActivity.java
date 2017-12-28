@@ -1,5 +1,7 @@
 package com.news.droiddebo.mytimes.view;
 
+import android.content.res.AssetManager;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -47,12 +49,16 @@ public class SearchActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshSearch;
     private RecyclerView mRecyclerViewSearch;
     private DataAdapter adapter;
+    private Typeface montserrat_regular;
     private ArrayList<ArticleStructure> articleStructure = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        AssetManager assetManager = this.getApplicationContext().getAssets();
+        montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
         createToolbar();
         initViews();
@@ -94,6 +100,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private void initViews() {
         mEdtSearch = findViewById(R.id.editText_search);
+        mEdtSearch.setTypeface(montserrat_regular);
         mSwipeRefreshSearch = findViewById(R.id.swipe_refresh_layout_search);
         mRecyclerViewSearch = findViewById(R.id.search_recycler_view);
         mTxvNoResultsFound = findViewById(R.id.tv_no_results);

@@ -3,7 +3,7 @@
     android:id="@+id/about_header"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorDarkBackground"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
     <ImageView
@@ -23,7 +23,7 @@
         android:layout_margin="5dp"
         android:text="@string/app_name"
         android:textColor="@android:color/white"
-        android:textSize="20sp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -31,7 +31,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="20dp"
         android:text="@string/newsapi_tag"
         android:textColor="@android:color/white"
         android:textSize="12sp"
