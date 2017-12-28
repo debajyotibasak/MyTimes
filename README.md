@@ -8,18 +8,16 @@
 
 **Features:**
 - Beautiful UI with Animations made with Material Design Guidelines by Google.
-- Fetches News from 10 sources (will add more in the future)
-- Option of sharing the news with friends.
-- Read the full news by following the link provided in the Article.
+- Fetches News from 20 sources.
+- Option of sharing the news with everyone.
+- Read the full news without going out of the application.
 - Read news in offline mode without internet.
-
-**News Sources**
-
-![new sources](https://user-images.githubusercontent.com/16916934/26977484-b6671362-4d45-11e7-9081-a716805de193.png)
+- Search News Articles and Read whatever you like.
 
 **Screenshots**
 
-![rsz_screenshot_1](https://user-images.githubusercontent.com/16916934/27370076-69bba42e-5678-11e7-8c65-54f875361e84.png)![rsz_screenshot_2](https://user-images.githubusercontent.com/16916934/27370075-69b8d2bc-5678-11e7-8e75-9a22e497d4d4.png)![rsz_2screenshot_3](https://user-images.githubusercontent.com/16916934/27370074-69b67ae4-5678-11e7-8d15-48fa6c108887.png)![rsz_screenshot_4](https://user-images.githubusercontent.com/16916934/27370077-69bf216c-5678-11e7-8dcf-29b75b78803d.png)![rsz_screenshot_5](https://user-images.githubusercontent.com/16916934/27370078-69c1f112-5678-11e7-9488-285940453de5.png)![rsz_screenshot_6](https://user-images.githubusercontent.com/16916934/27370079-69cae84e-5678-11e7-8357-c727fbd99e14.png)
+![appwrap-template-20171228134416](https://user-images.githubusercontent.com/16916934/34405759-1981c350-ebdb-11e7-9fea-54e967cb293f.png)![appwrap-template-20171228134646](https://user-images.githubusercontent.com/16916934/34405782-404c0bee-ebdb-11e7-9aed-baded694e2a5.png)![appwrap-template-20171228134938](https://user-images.githubusercontent.com/16916934/34405802-59ddf3d8-ebdb-11e7-8999-06203ad577a5.png)![appwrap-template-20171228135228](https://user-images.githubusercontent.com/16916934/34405829-73bee834-ebdb-11e7-9d94-3313fb0c5bde.png)![appwrap-template-20171228135531](https://user-images.githubusercontent.com/16916934/34405841-87f14fe0-ebdb-11e7-8a98-f6a95b6fe419.png)![appwrap-template-20171228135624](https://user-images.githubusercontent.com/16916934/34405852-9ca23198-ebdb-11e7-902c-5a9d35ae2cf8.png)
+
 
 **What I have learned from this project:**
 - Fetching JSON data and parsing it.
@@ -27,6 +25,11 @@
 - Maintaining a good design ny following Material Design Guidelines by Google.
 - Working with UI libraries like Material Drawer by Mike Penz.
 - Saving Orientation changes with savedInstance.
+- Working with webview.
+- Image Loading with Glide.
+- Recyclerview animations.
+- Migration of API from v1 to v2.
+- Different themes in fifferent activities.
 
 **Libraries used in this project:**
 - **[MaterialDrawer](https://github.com/mikepenz/MaterialDrawer)**
