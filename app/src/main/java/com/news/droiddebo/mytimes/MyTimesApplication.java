@@ -12,7 +12,6 @@ public class MyTimesApplication extends Application {
         super.onCreate();
         myTimesApplicationInstance = this;
     }
-
     public static MyTimesApplication getMyTimesApplicationInstance(){
         return myTimesApplicationInstance;
     }
