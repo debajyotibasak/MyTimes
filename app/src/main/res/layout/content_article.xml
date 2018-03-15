@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.news.droiddebo.mytimes.view.ArticleActivity"
+    tools:showIn="@layout/activity_article">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/content_Headline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            tools:text="Headline" />
+
+        <TextView
+            android:id="@+id/content_Description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/text_margin"
+            android:lineSpacingExtra="@dimen/line_spacing"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/text_size_medium"
+            android:textStyle="normal"
+            tools:text="Story" />
+
+        <Button
+            android:id="@+id/article_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginStart="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginEnd="@dimen/text_margin"
+            android:text="@string/read_the_full_article"
+            android:textAllCaps="false"
+            android:textSize="@dimen/text_size_button"
+            android:textColor="@color/button_text_color"
+            android:background="@drawable/background_button"/>
+
+    </LinearLayout>
+
+</android.support.v4.widget.NestedScrollView>

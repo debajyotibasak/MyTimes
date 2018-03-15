@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">MyTimes</string>
+    <string name="title_activity_article">MyTimes</string>
+    <string name="article_activity_author">AUTHOR:</string>
+    <string name="article_activity_source">SOURCE: Times of India</string>
+    <string name="article_activity_date">DATE:</string>
+    <string name="menu_title_url">url</string>
+    <string name="iv_card_content_description_image">Image of the news response</string>
+    <string name="collasping_image">Collasping Image</string>
+    <string name="menu_title_about">About the app</string>
+    <string name="tv_made_with_love_by">Made with &#9829; by</string>
+    <string name="iv_card_my_info">My Photo</string>
+    <string name="tv_libraries_used">Libraries Used</string>
+    <string name="toolbar_default_text">Google News India</string>
+    <string name="title_about_the_app">About the app</string>
+    <string name="debajyoti_basak">Debajyoti Basak</string>
+    <string name="mytimes_logo">MyTimes Logo</string>
+    <string name="newsapi_tag">A beautiful News Reader powered by www.newsapi.org</string>
+    <string name="material_drawer">Material Drawer</string>
+    <string name="mike_penz">Mike Penz</string>
+    <string name="retrofit">Retrofit</string>
+    <string name="square">Square</string>
+    <string name="okhttp">OkHttp</string>
+    <string name="glide">Glide</string>
+    <string name="bumptech">Bumptech</string>
+    <string name="read_the_full_article">Read the full article</string>
+
+    <string-array name="spinner">
+        <item>TOP HEADLINES</item>
+        <item>LATEST HEADLINES</item>
+    </string-array>
+
+</resources>

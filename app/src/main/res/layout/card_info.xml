@@ -1,0 +1,49 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="@dimen/card_layout_margin"
+    android:layout_marginLeft="@dimen/card_layout_margin"
+    android:layout_marginRight="@dimen/card_layout_margin"
+    android:layout_marginStart="@dimen/card_layout_margin"
+    android:layout_marginTop="@dimen/card_layout_margin"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless"
+    card_view:cardBackgroundColor="@color/colorCardView"
+    card_view:cardCornerRadius="@dimen/card_layout_corner_radius"
+    card_view:cardElevation="@dimen/card_layout_elevation">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+
+        <ImageView
+            android:id="@+id/iv_card_info"
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:contentDescription="@string/iv_card_my_info"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_profile_pic" />
+
+        <TextView
+            android:id="@+id/tv_card_info"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/tv_card_layout_margin"
+            android:layout_marginEnd="@dimen/tv_card_layout_margin"
+            android:layout_marginRight="@dimen/tv_card_layout_margin"
+            android:layout_marginTop="@dimen/tv_card_layout_margin"
+            android:layout_toEndOf="@id/iv_card_info"
+            android:layout_toRightOf="@id/iv_card_info"
+            android:gravity="center"
+            android:text="@string/debajyoti_basak"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="normal" />
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

@@ -1,0 +1,18 @@
+<resources>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">18dp</dimen>
+    <dimen name="text_size_big">20sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_medium">14sp</dimen>
+    <dimen name="app_bar_layout_height">300dp</dimen>
+    <dimen name="line_spacing">1sp</dimen>
+    <dimen name="card_layout_margin">8dp</dimen>
+    <dimen name="card_layout_corner_radius">2dp</dimen>
+    <dimen name="card_layout_elevation">2dp</dimen>
+    <dimen name="iv_card_height">160dp</dimen>
+    <dimen name="tv_card_layout_margin">12dp</dimen>
+    <dimen name="tv_card_text_size">16sp</dimen>
+    <dimen name="corner_radius_button">5dp</dimen>
+    <dimen name="text_size_button">20sp</dimen>
+</resources>
