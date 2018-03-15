@@ -6,8 +6,6 @@ import android.app.Application;
 ** Used for getting the application instance
 **/
 public class MyTimesApplication extends Application {
-
-
     private static MyTimesApplication myTimesApplicationInstance;
     @Override
     public void onCreate() {
