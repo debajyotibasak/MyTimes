@@ -38,6 +38,15 @@
 
 Note: Please use your own API KEY. Its very easy to set up. Just go to https://newsapi.org/register.
 
+If you do not have a gradle.properties file, create one
+
+- Change you Android view to Project file in the directory
+- Right click > New > File
+- Put the name as gradle.properties
+- Now paste MY_NEWS_API_KEY="your-api-key-here" in the gradle.properties file
+
+Build the project and Run
+
 **_Contributions are also welcome._**
 
 
