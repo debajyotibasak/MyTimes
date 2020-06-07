@@ -2,14 +2,7 @@ package com.news.droiddebo.mytimes.view;
 
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +10,13 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.news.droiddebo.mytimes.MyTimesApplication;
 import com.news.droiddebo.mytimes.R;
@@ -29,10 +29,9 @@ import com.news.droiddebo.mytimes.network.ApiInterface;
 import com.news.droiddebo.mytimes.network.interceptors.OfflineResponseCacheInterceptor;
 import com.news.droiddebo.mytimes.network.interceptors.ResponseCacheInterceptor;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -49,8 +48,8 @@ public class SearchActivity extends AppCompatActivity {
     private SwipeRefreshLayout mSwipeRefreshSearch;
     private RecyclerView mRecyclerViewSearch;
     private DataAdapter adapter;
-    private Typeface montserrat_regular;
-    private ArrayList<ArticleStructure> articleStructure = new ArrayList<>();
+    private Typeface montserratRegular;
+    private List<ArticleStructure> articleStructure = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,23 +57,20 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search);
 
         AssetManager assetManager = this.getApplicationContext().getAssets();
-        montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
+        montserratRegular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
         createToolbar();
         initViews();
 
-        mEdtSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                    mgr.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                    searchEverything(mEdtSearch.getText().toString().trim());
-                    return true;
-                }
-
-                return false;
+        mEdtSearch.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                mgr.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                searchEverything(mEdtSearch.getText().toString().trim());
+                return true;
             }
+
+            return false;
         });
 
         mSwipeRefreshSearch.setEnabled(false);
@@ -87,20 +83,17 @@ public class SearchActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_arrow_back));
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                SearchActivity.this.overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
-            }
+        toolbar.setNavigationIcon(this.getDrawable(R.drawable.ic_arrow_back));
+        toolbar.setNavigationOnClickListener(v -> {
+            finish();
+            SearchActivity.this.overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
     }
 
     private void initViews() {
         mEdtSearch = findViewById(R.id.editText_search);
-        mEdtSearch.setTypeface(montserrat_regular);
+        mEdtSearch.setTypeface(montserratRegular);
         mSwipeRefreshSearch = findViewById(R.id.swipe_refresh_layout_search);
         mRecyclerViewSearch = findViewById(R.id.search_recycler_view);
         mTxvNoResultsFound = findViewById(R.id.tv_no_results);
@@ -117,7 +110,7 @@ public class SearchActivity extends AppCompatActivity {
         OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
         httpClient.addNetworkInterceptor(new ResponseCacheInterceptor());
         httpClient.addInterceptor(new OfflineResponseCacheInterceptor());
-        httpClient.cache(new Cache(new File(MyTimesApplication.getMyTimesApplicationInstance()
+        httpClient.cache(new Cache(new File(MyTimesApplication.getApplication()
                 .getCacheDir(), "ResponsesCache"), 10 * 1024 * 1024));
         httpClient.readTimeout(60, TimeUnit.SECONDS);
         httpClient.connectTimeout(60, TimeUnit.SECONDS);
@@ -132,9 +125,7 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(@NonNull Call<NewsResponse> call, @NonNull Response<NewsResponse> response) {
-
-                if (response.isSuccessful() && response.body().getArticles() != null) {
-
+                if (response.isSuccessful() && response.body() != null && response.body().getArticles() != null) {
                     if (response.body().getTotalResults() != 0) {
                         if (!articleStructure.isEmpty()) {
                             articleStructure.clear();
@@ -147,16 +138,15 @@ public class SearchActivity extends AppCompatActivity {
                         mRecyclerViewSearch.setAdapter(adapter);
                         mSwipeRefreshSearch.setRefreshing(false);
                         mSwipeRefreshSearch.setEnabled(false);
-                    } else if (response.body().getTotalResults() == 0){
+                    } else if (response.body().getTotalResults() == 0) {
                         mSwipeRefreshSearch.setRefreshing(false);
                         mSwipeRefreshSearch.setEnabled(false);
                         mTxvNoResultsFound.setVisibility(View.VISIBLE);
                         mRecyclerViewSearch.setVisibility(View.GONE);
-                        mTxvNoResultsFound.setText("No Results found for \"" + search + "\"." );
+                        mTxvNoResultsFound.setText("No Results found for \"" + search + "\".");
                     }
                 }
             }
-
 
             @Override
             public void onFailure(@NonNull Call<NewsResponse> call, @NonNull Throwable t) {
@@ -173,22 +163,14 @@ public class SearchActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_cancel:
-                mEdtSearch.setText("");
-                mEdtSearch.requestFocus();
-                InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-                mgr.showSoftInput(mEdtSearch, InputMethodManager.SHOW_IMPLICIT);
-                mRecyclerViewSearch.setVisibility(View.GONE);
-                break;
-            default:
-                break;
+        if (item.getItemId() == R.id.action_cancel) {
+            mEdtSearch.setText("");
+            mEdtSearch.requestFocus();
+            InputMethodManager mgr = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            mgr.showSoftInput(mEdtSearch, InputMethodManager.SHOW_IMPLICIT);
+            mRecyclerViewSearch.setVisibility(View.GONE);
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void cancelSearch() {
-        onBackPressed();
     }
 
     @Override

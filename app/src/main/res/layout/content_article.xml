@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -21,11 +20,11 @@
             android:id="@+id/content_Headline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_margin"
-            android:layout_marginLeft="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
             android:textAllCaps="false"
             android:textColor="@android:color/white"
             android:textSize="@dimen/text_size_big"
@@ -36,11 +35,11 @@
             android:id="@+id/content_Description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_margin"
-            android:layout_marginLeft="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
             android:layout_marginBottom="@dimen/text_margin"
             android:lineSpacingExtra="@dimen/line_spacing"
             android:textColor="@android:color/white"
@@ -52,17 +51,17 @@
             android:id="@+id/article_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/text_margin"
-            android:layout_marginLeft="@dimen/text_margin"
             android:layout_marginStart="@dimen/text_margin"
-            android:layout_marginRight="@dimen/text_margin"
+            android:layout_marginLeft="@dimen/text_margin"
+            android:layout_marginTop="@dimen/text_margin"
             android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginRight="@dimen/text_margin"
+            android:background="@drawable/background_button"
             android:text="@string/read_the_full_article"
             android:textAllCaps="false"
-            android:textSize="@dimen/text_size_button"
             android:textColor="@color/button_text_color"
-            android:background="@drawable/background_button"/>
+            android:textSize="@dimen/text_size_button" />
 
     </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

@@ -1,15 +1,11 @@
 package com.news.droiddebo.mytimes.model;
 
-import java.util.ArrayList;
-
-/**
- * Created by debajyotibasak on 17/12/17.
- */
+import java.util.List;
 
 public class NewsResponse {
     private String status;
     private int totalResults;
-    private ArrayList<ArticleStructure> articles;
+    private List<ArticleStructure> articles;
 
     public String getStatus() {
         return status;
@@ -27,11 +23,11 @@ public class NewsResponse {
         this.totalResults = totalResults;
     }
 
-    public ArrayList<ArticleStructure> getArticles() {
+    public List<ArticleStructure> getArticles() {
         return articles;
     }
 
-    public void setArticles(ArrayList<ArticleStructure> articles) {
+    public void setArticles(List<ArticleStructure> articles) {
         this.articles = articles;
     }
 }

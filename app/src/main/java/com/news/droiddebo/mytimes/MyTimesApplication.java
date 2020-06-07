@@ -2,17 +2,19 @@ package com.news.droiddebo.mytimes;
 
 import android.app.Application;
 
-/*
-** Used for getting the application instance
-**/
+/**
+ * Used for getting the application instance
+ */
 public class MyTimesApplication extends Application {
-    private static MyTimesApplication myTimesApplicationInstance;
+    private static MyTimesApplication application;
+
     @Override
     public void onCreate() {
         super.onCreate();
-        myTimesApplicationInstance = this;
+        application = this;
     }
-    public static MyTimesApplication getMyTimesApplicationInstance(){
-        return myTimesApplicationInstance;
+
+    public static MyTimesApplication getApplication() {
+        return application;
     }
 }

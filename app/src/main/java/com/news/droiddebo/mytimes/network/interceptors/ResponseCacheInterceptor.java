@@ -1,15 +1,15 @@
 package com.news.droiddebo.mytimes.network.interceptors;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 
 import okhttp3.Interceptor;
 import okhttp3.Response;
 
-/*
-** Interceptor to cache data nd prevent it loading again and again in a minute
-**/
+/**
+ * Interceptor to cache data nd prevent it loading again and again in a minute
+ */
 public class ResponseCacheInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {

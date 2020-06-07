@@ -11,8 +11,8 @@ public class UtilityMethods {
      */
     public static boolean isNetworkAvailable() {
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) MyTimesApplication.getMyTimesApplicationInstance()
-                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager = (ConnectivityManager) MyTimesApplication
+                .getApplication().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         return connectivityManager.getActiveNetworkInfo() != null
                 && connectivityManager.getActiveNetworkInfo().isConnectedOrConnecting();

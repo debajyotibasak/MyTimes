@@ -28,13 +28,19 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/card_layout_margin</item>
         <item name="android:layout_marginLeft">@dimen/card_layout_margin</item>
-        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">@dimen/card_layout_margin</item>
-        <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">@dimen/card_layout_margin</item>
+        <item name="android:layout_marginStart" tools:targetApi="jelly_bean_mr1">
+            @dimen/card_layout_margin
+        </item>
+        <item name="android:layout_marginEnd" tools:targetApi="jelly_bean_mr1">
+            @dimen/card_layout_margin
+        </item>
         <item name="android:layout_marginRight">@dimen/card_layout_margin</item>
         <item name="android:layout_marginBottom">@dimen/card_layout_margin</item>
         <item name="android:clickable">true</item>
         <item name="android:foreground">?attr/selectableItemBackgroundBorderless</item>
-        <item name="android:stateListAnimator" tools:targetApi="lollipop">@animator/selector_animator</item>
+        <item name="android:stateListAnimator" tools:targetApi="lollipop">
+            @animator/selector_animator
+        </item>
     </style>
 
     <style name="card_layout_library_name">
