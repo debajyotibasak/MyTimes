@@ -1,25 +1,29 @@
 package com.news.droiddebo.mytimes.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceError;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.news.droiddebo.mytimes.R;
 import com.news.droiddebo.mytimes.model.Constants;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -27,8 +31,8 @@ public class WebViewActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     private String url;
     private TextView mTitle;
-    private Typeface montserrat_regular;
-    private float m_downX;
+    private Typeface montserratRegular;
+    private float mDownX;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +40,11 @@ public class WebViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_web_view);
 
         AssetManager assetManager = this.getApplicationContext().getAssets();
-        montserrat_regular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
+        montserratRegular = Typeface.createFromAsset(assetManager, "fonts/Montserrat-Regular.ttf");
 
         url = getIntent().getStringExtra(Constants.INTENT_URL);
 
-        /*
-        ** Custom Toolbar ( App Bar )
-        **/
+        // Custom Toolbar ( App Bar )
         createToolbar();
 
         webView = findViewById(R.id.webView_article);
@@ -60,12 +62,13 @@ public class WebViewActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowTitleEnabled(false);
         }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         mTitle = findViewById(R.id.toolbar_title_web_view);
-        mTitle.setTypeface(montserrat_regular);
+        mTitle.setTypeface(montserratRegular);
         mTitle.setText(url);
     }
 
+    @SuppressLint({"SetJavaScriptEnabled", "ClickableViewAccessibility"})
     private void initWebView() {
         webView.setWebChromeClient(new MyWebChromeClient(this));
         webView.setWebViewClient(new WebViewClient() {
@@ -87,11 +90,6 @@ public class WebViewActivity extends AppCompatActivity {
                 super.onPageFinished(view, url);
                 progressBar.setVisibility(View.GONE);
             }
-
-            @Override
-            public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
-                super.onReceivedError(view, request, error);
-            }
         });
 
         webView.clearCache(true);
@@ -99,40 +97,35 @@ public class WebViewActivity extends AppCompatActivity {
         webView.getSettings().setJavaScriptEnabled(true);
         webView.setHorizontalScrollBarEnabled(false);
 
-        webView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        webView.setOnTouchListener((v, event) -> {
 
-                if (event.getPointerCount() > 1) {
-                    //Multi touch detected
-                    return true;
-                }
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        // save the x
-                        m_downX = event.getX();
-                    }
-                    break;
-
-                    case MotionEvent.ACTION_MOVE:
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP: {
-                        // set x so that it doesn't move
-                        event.setLocation(m_downX, event.getY());
-                    }
-                    break;
-                }
-
-                return false;
+            if (event.getPointerCount() > 1) {
+                // Multi touch detected
+                return true;
             }
 
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    // save the x
+                    mDownX = event.getX();
+                    break;
 
+                case MotionEvent.ACTION_MOVE:
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP:
+                    // set x so that it doesn't move
+                    event.setLocation(mDownX, event.getY());
+                    break;
+                default:
+                    throw new IllegalStateException("Unexpected value: " + event.getAction());
+            }
+
+            return false;
         });
 
     }
 
-    private class MyWebChromeClient extends WebChromeClient {
+    private static class MyWebChromeClient extends WebChromeClient {
         Context context;
 
         public MyWebChromeClient(Context context) {
@@ -142,39 +135,28 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            /*
-            * Override the Up/Home Button
-            * */
-            case android.R.id.home:
-                onBackPressed();
-                return true;
+        // Override the Up/Home Button
+        if (item.getItemId() == android.R.id.home) {
+            onBackPressed();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle bundle) {
+    protected void onSaveInstanceState(@NotNull Bundle bundle) {
         super.onSaveInstanceState(bundle);
         bundle.putString(Constants.TITLE_WEBVIEW_KEY, url);
         webView.saveState(bundle);
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NotNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        if (savedInstanceState != null) {
-            createToolbar();
-            webView.restoreState(savedInstanceState);
-            mTitle.setText(savedInstanceState.getString(Constants.TITLE_WEBVIEW_KEY));
-        }
+        createToolbar();
+        webView.restoreState(savedInstanceState);
+        mTitle.setText(savedInstanceState.getString(Constants.TITLE_WEBVIEW_KEY));
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
 
     @Override
     public void onBackPressed() {

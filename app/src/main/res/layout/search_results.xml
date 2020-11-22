@@ -7,31 +7,31 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/activity_search">
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorBackground">
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/search_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fadeScrollbars="true"
             android:scrollbars="vertical" />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <TextView
         android:id="@+id/tv_no_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="No Results Found!"
-        android:textAlignment="center"
+        android:layout_centerInParent="true"
         android:layout_margin="60dp"
-        android:textStyle="bold"
+        android:textAlignment="center"
         android:textColor="@android:color/darker_gray"
         android:textSize="20sp"
-        android:layout_centerInParent="true"
-        android:visibility="visible"/>
+        android:textStyle="bold"
+        android:visibility="visible"
+        tools:text="No Results Found!" />
 </RelativeLayout>

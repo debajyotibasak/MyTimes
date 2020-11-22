@@ -1,9 +1,5 @@
 package com.news.droiddebo.mytimes.model;
 
-/**
- * Created by debajyotibasak on 17/12/17.
- */
-
 public class ArticleStructure {
     private Source source;
     private String author;
